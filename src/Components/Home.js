@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HomeHeader from './HomeHeader'
-import '../Styles/Home.css'
+import '../styles/Home.css'
 import HomeMain from './HomeMain'
 import HomeFAQ from './HomeFAQ'
 import { TextField } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeFooter from './HomeFooter'
+import validator from 'email-validator'
+import { useNavigate } from 'react-router-dom'
 
 const data =
     [
@@ -65,7 +67,22 @@ const faq = [
     }
 ]
 
+
 const Home = () => {
+    const [email, setEmail] = useState('')
+    const [errorMsg, setErrorMsg] = useState("");
+    const [emailValidate, setEmailValidate] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = () => {
+        if (validator.validate(email)) {
+            navigate('/signup', { state: { email: email } });
+
+        } else {
+            setEmailValidate(true)
+        }
+    }
+
     //const token = localStorage.getItem("token")
     return (
         //token ? <Redirect to="/browse" /> :
@@ -82,13 +99,32 @@ const Home = () => {
                 <h4>Ready to watch? Enter your email to create or restart your membership.</h4>
                 <div className="cover_content_get_started">
                     <div>
-                        <TextField variant="filled" label="Email address" className="input" color='secondary' type='email' />
+                        <TextField
+                            variant="filled"
+                            label="Email address"
+                            className="input"
+                            color='secondary'
+                            type='email'
+                            value={email}
+                            onChange={(e) => {
+
+                                setEmail(e.target.value)
+                                setErrorMsg("")
+                            }}
+
+                        />
                     </div>
-                    <button>Get Started <NavigateNextIcon className="home-right-arrow" /></button>
+                    <button onClick={() => handleSubmit()}>Get Started <NavigateNextIcon className="home-right-arrow" /></button>
                 </div>
+                {errorMsg &&
+
+                    <div className="error">{errorMsg}</div>
+
+                }
+                {emailValidate && <div className="error">Please enter a valid email address.</div>}
             </div>
             <HomeFooter />
-        </div>
+        </div >
     )
 }
 

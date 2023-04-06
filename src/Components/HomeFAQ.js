@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function HomeFAQ({ data }) {
+const HomeFAQ = ({ data }) => {
     const classes = useStyles();
 
     return (
@@ -42,3 +42,5 @@ export default function HomeFAQ({ data }) {
         </div>
     );
 }
+
+export default HomeFAQ;

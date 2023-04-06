@@ -35,7 +35,7 @@
     width: 170px;
 }
 
-.cover_content_header>button.sign_in_btn {
+.sign_in_btn {
     color: white !important;
     background-color: red;
     padding: 7px 12px;

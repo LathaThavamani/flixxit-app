@@ -1,5 +1,5 @@
 import React from 'react'
-import '../Styles/Home.css'
+import '../styles/Home.css'
 
 
 const HomeFooter = () => {
@@ -24,7 +24,7 @@ const HomeFooter = () => {
                         <p>Account</p>
                         <p>Ways to Watch</p>
                         <p>Corporate Information</p>
-                        <p>Netflix Originals</p>
+                        <p>Flixxit Originals</p>
                     </div>
                     <div>
                         <p>Media Centre</p>

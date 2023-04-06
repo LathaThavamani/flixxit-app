@@ -1,21 +1,28 @@
 import React, { useState } from 'react'
-import '../Styles/Home.css'
-import { Button, TextField } from '@mui/material'
-//import validator from 'email-validator'
-import { useHistory } from 'react-router-dom';
+import '../styles/Home.css'
+import { TextField } from '@mui/material'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import validator from 'email-validator'
+import { useNavigate } from 'react-router-dom'
 
 const HomeHeader = () => {
     const [email, setEmail] = useState('')
     const [errorMsg, setErrorMsg] = useState("");
     const [emailValidate, setEmailValidate] = useState(false);
-
-    //const history = useHistory()
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
+        if (validator.validate(email)) {
+            navigate('/signup', { state: { email: email } });
+
+        } else {
+            setEmailValidate(true)
+        }
     }
 
 
     const handleClick = () => {
+        navigate('/signin', { state: email });
     }
 
     return (
@@ -48,7 +55,7 @@ const HomeHeader = () => {
 
                         />
                     </div>
-                    <button onClick={() => handleSubmit()}>Get Started</button>
+                    <button onClick={() => handleSubmit()}>Get Started<NavigateNextIcon className="home-right-arrow" /></button>
                 </div>
                 {errorMsg &&
 
