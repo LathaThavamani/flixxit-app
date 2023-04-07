@@ -1,7 +1,7 @@
-import { baseURL } from "../data/constants.js"
+import { baseURL } from "./../data/constants.js"
 
 export function getJsonData(url, obj) {
-    return fetch(baseURL + url, {
+    return fetch('http://localhost:3001' + url, {
         method: 'GET',
         // headers: {
         //     token: localStorage.getItem('token')

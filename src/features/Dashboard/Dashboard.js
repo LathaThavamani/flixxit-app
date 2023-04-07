@@ -4,7 +4,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { Layout } from './components/Layout';
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllMovies } from '../../data/moviesSlice.js';
+import { getTopRatedMovies, getTrendingMovies } from '../../data/moviesSlice.js';
 
 //import { getSearchSuccess } from '../../Redux/Search/action'
 //import MovieRow from './components/MovieRow';
@@ -22,14 +22,18 @@ function Dashboad(props) {
     const [mute, setMute] = useState(true);
     const [play, setPlay] = useState(true);
     const dispatch = useDispatch();
-    const { movies, isLoading } = useSelector(state => state.movies)
+    dispatch(getTrendingMovies())
+    dispatch(getTopRatedMovies())
+    const { trendingMovies, topRatedMovies } = useSelector(state => state.movies)
+
     //const { series } = useSelector(state => state.series)
     //const { searchResults: searchList } = useSelector((state) => state.search)
     //const { currentProfile } = useSelector(state => state.profiles)
 
 
     useEffect(() => {
-        dispatch(getAllMovies())
+        dispatch(getTrendingMovies())
+        dispatch(getTopRatedMovies())
         //dispatch(makeGetSeriesRequest())
         //dispatch(getSearchSuccess([]))
         // if (!currentProfile) {
@@ -110,6 +114,23 @@ function Dashboad(props) {
                             </div>
                         </div>
                     </div>
+                    {trendingMovies.length ?
+                        <ul>
+                            {
+                                trendingMovies.map((item, key) => (
+                                    <li>{item.original_title}</li>
+                                ))}
+                        </ul> : <></>
+                    }
+                    <hr></hr>
+                    {topRatedMovies.length ?
+                        <ul>
+                            {
+                                topRatedMovies.map((item, key) => (
+                                    <li>{item.original_title}</li>
+                                ))}
+                        </ul> : <></>
+                    }
                     {/* {
                         movies.length ? <section className="lists">
                             {movies.map((item, key) => (
