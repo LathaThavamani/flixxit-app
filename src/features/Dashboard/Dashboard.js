@@ -3,9 +3,10 @@ import '../../styles/Dashboard.css';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { Layout } from './components/Layout';
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllMovies } from '../../data/moviesSlice.js';
 
 //import { getSearchSuccess } from '../../Redux/Search/action'
-//import { useDispatch, useSelector } from 'react-redux'
 //import MovieRow from './components/MovieRow';
 //import { makeGetMoviesRequest } from '../../Redux/Movies/action.js';
 //import { makeGetSeriesRequest } from '../../Redux/TvShows/action';
@@ -20,40 +21,40 @@ function Dashboad(props) {
     const [blackHeader, setBlackHeader] = useState(false);
     const [mute, setMute] = useState(true);
     const [play, setPlay] = useState(true);
-    // const dispatch = useDispatch();
-    // const { movies, isLoading } = useSelector(state => state.movies)
-    // const { series } = useSelector(state => state.series)
-    // const { searchResults: searchList } = useSelector((state) => state.search)
-    // const { currentProfile } = useSelector(state => state.profiles)
+    const dispatch = useDispatch();
+    const { movies, isLoading } = useSelector(state => state.movies)
+    //const { series } = useSelector(state => state.series)
+    //const { searchResults: searchList } = useSelector((state) => state.search)
+    //const { currentProfile } = useSelector(state => state.profiles)
 
 
-    // useEffect(() => {
-    //     dispatch(makeGetMoviesRequest())
-    //     dispatch(makeGetSeriesRequest())
-    //     dispatch(getSearchSuccess([]))
-    //     if (!currentProfile) {
-    //         let token = localStorage.getItem("token")
-    //         dispatch(getProfiles(token))
-    //         dispatch(setCurrentProfile(JSON.parse(localStorage.getItem("currentProfile"))))
-    //     }
+    useEffect(() => {
+        dispatch(getAllMovies())
+        //dispatch(makeGetSeriesRequest())
+        //dispatch(getSearchSuccess([]))
+        // if (!currentProfile) {
+        //     let token = localStorage.getItem("token")
+        //     dispatch(getProfiles(token))
+        //     dispatch(setCurrentProfile(JSON.parse(localStorage.getItem("currentProfile"))))
+        // }
 
-    // }, []);
+    }, []);
 
-    // useEffect(() => {
-    //     const scrollListener = () => {
-    //         if (window.scrollY > 10) {
-    //             setBlackHeader(true);
-    //         } else {
-    //             setBlackHeader(false);
-    //         }
-    //     }
+    useEffect(() => {
+        const scrollListener = () => {
+            if (window.scrollY > 10) {
+                setBlackHeader(true);
+            } else {
+                setBlackHeader(false);
+            }
+        }
 
 
-    //     window.addEventListener('scroll', scrollListener);
-    //     return () => {
-    //         window.removeEventListener('scroll', scrollListener);
-    //     }
-    // }, []);
+        window.addEventListener('scroll', scrollListener);
+        return () => {
+            window.removeEventListener('scroll', scrollListener);
+        }
+    }, []);
 
 
 
@@ -64,8 +65,6 @@ function Dashboad(props) {
                 //isLoading ? <Loader /> :
                 //searchList.length === 0 ?
                 <div className="page">
-
-                    {/* <Header black={blackHeader} search={search} setSearch={setSearch} /> */}
                     <div className="root">
 
                         <div className="player">
