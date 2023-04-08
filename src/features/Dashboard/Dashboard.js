@@ -5,9 +5,12 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { Layout } from './components/Layout';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTopRatedMovies, getTrendingMovies } from '../../data/moviesSlice.js';
+import MovieList from './components/MovieList';
+import { InterpreterModeSharp } from '@mui/icons-material';
+
 
 //import { getSearchSuccess } from '../../Redux/Search/action'
-//import MovieRow from './components/MovieRow';
+
 //import { makeGetMoviesRequest } from '../../Redux/Movies/action.js';
 //import { makeGetSeriesRequest } from '../../Redux/TvShows/action';
 //import { Search } from '../Search/Search';
@@ -22,8 +25,8 @@ function Dashboad(props) {
     const [mute, setMute] = useState(true);
     const [play, setPlay] = useState(true);
     const dispatch = useDispatch();
-    dispatch(getTrendingMovies())
-    dispatch(getTopRatedMovies())
+    // dispatch(getTrendingMovies())
+    // dispatch(getTopRatedMovies())
     const { trendingMovies, topRatedMovies } = useSelector(state => state.movies)
 
     //const { series } = useSelector(state => state.series)
@@ -31,20 +34,22 @@ function Dashboad(props) {
     //const { currentProfile } = useSelector(state => state.profiles)
 
 
+    // useEffect(() => {
+    //     dispatch(getTrendingMovies())
+    //     dispatch(getTopRatedMovies())
+    //     //dispatch(makeGetSeriesRequest())
+    //     //dispatch(getSearchSuccess([]))
+    //     // if (!currentProfile) {
+    //     //     let token = localStorage.getItem("token")
+    //     //     dispatch(getProfiles(token))
+    //     //     dispatch(setCurrentProfile(JSON.parse(localStorage.getItem("currentProfile"))))
+    //     // }
+
+    // }, []);
+
     useEffect(() => {
         dispatch(getTrendingMovies())
         dispatch(getTopRatedMovies())
-        //dispatch(makeGetSeriesRequest())
-        //dispatch(getSearchSuccess([]))
-        // if (!currentProfile) {
-        //     let token = localStorage.getItem("token")
-        //     dispatch(getProfiles(token))
-        //     dispatch(setCurrentProfile(JSON.parse(localStorage.getItem("currentProfile"))))
-        // }
-
-    }, []);
-
-    useEffect(() => {
         const scrollListener = () => {
             if (window.scrollY > 10) {
                 setBlackHeader(true);
@@ -114,39 +119,21 @@ function Dashboad(props) {
                             </div>
                         </div>
                     </div>
-                    {trendingMovies.length ?
-                        <ul>
-                            {
-                                trendingMovies.map((item, key) => (
-                                    <li>{item.original_title}</li>
-                                ))}
-                        </ul> : <></>
-                    }
-                    <hr></hr>
-                    {topRatedMovies.length ?
-                        <ul>
-                            {
-                                topRatedMovies.map((item, key) => (
-                                    <li>{item.original_title}</li>
-                                ))}
-                        </ul> : <></>
-                    }
-                    {/* {
-                        movies.length ? <section className="lists">
-                            {movies.map((item, key) => (
-                                <MovieRow isTvShow={true} key={key} title={item.title} items={item.data} />
-                            ))}
+                    {
+                        trendingMovies.length ? <section>
+                            {/* {trendingMovies.map((item, key) => ( */}
+                            <MovieList isTopRated={false} title={"Trending"} items={trendingMovies} />
+                            {/* ))} */}
                         </section> : <></>
                     }
 
                     {
-                        series.length ? <section className="lists">
-                            {[series].map((item, key) => (
-                                <MovieRow key={key} isTvShow={true} title={"Series"} items={item} />
-                            ))}
+                        topRatedMovies.length ? <section>
+                            {/* {topRatedMovies.map((item, key) => ( */}
+                            <MovieList isTopRated={true} title={"Top Rated"} items={topRatedMovies} />
+                            {/* ))} */}
                         </section> : <></>
-                    } */}
-                    {/* <HomeFooter /> */}
+                    }
                 </div>
                 // : <Search />
             }
