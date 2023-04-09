@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import "../../../styles/ShowMovies.css"
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CheckIcon from '@mui/icons-material/Check';
@@ -6,18 +6,25 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 //import { useSelector } from 'react-redux';
-//import { Backdrop, Modal } from "@mui/material";
-//import { MovieModal } from "./MovieModal";
+import { Backdrop, Modal } from "@mui/material";
+import { MovieModal } from "./MovieModal";
 import { useNavigate } from 'react-router';
-
+import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
+import { useDispatch, useSelector } from 'react-redux'
 
 const highlightStyle = { backgroundColor: "white", color: "black" }
 
 export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, applyClass = "" }) => {
     //const { currentProfile } = useSelector(state => state.profiles);
     const navigate = useNavigate();
+    //const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
-    const handleModalButton = () => {
+    const dispatch = useDispatch();
+
+
+    const handleModalButton = async () => {
+        dispatch(getMovieDetails(item.id));
+        dispatch(getMovieVideoSource(item.id));
         setModalOpen(true)
 
     }
@@ -44,6 +51,7 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
     const liked = isLiked(item.id)
     const disliked = isDisLiked(item.id)
     const inList = isInList(item.id)
+
 
 
     return (
@@ -73,7 +81,7 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
                         {
 
                             disliked ?
-                                <li style={highlightStyle} onClick={() => handleDislike(item._id)}><ThumbDownAltIcon /> </li> :
+                                <li style={highlightStyle} onClick={() => handleDislike(item.id)}><ThumbDownAltIcon /> </li> :
                                 <li onClick={() => handleDislike(item._id)}><ThumbDownAltIcon /> </li>
                         }
 
@@ -103,7 +111,7 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
 
 
             </div>
-            {/* <Modal
+            <Modal
                 open={modalOpen}
                 onClose={handleClose}
                 closeAfterTransition
@@ -113,10 +121,10 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
                 }}
             >
                 <div className="root"  >
-                    <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} Movie={item} />
+                    <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} item={item} />
                 </div>
 
-            </Modal> */}
+            </Modal >
         </>
     )
 }

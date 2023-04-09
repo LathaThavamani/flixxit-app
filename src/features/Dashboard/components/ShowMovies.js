@@ -39,8 +39,9 @@ export const ShowMovies = ({ items, title, isTopRated }) => {
         speed: 500,
 
         slidesToShow: width > 900 ? 5 : width > 700 ? 3 : width > 600 ? 2 : 2,
-        slidesToScroll: 5,
-        //cssEase: "linear"
+        slidesToShow: 5,
+        //slidesToScroll: 5,
+        cssEase: "linear"
     }
 
 
@@ -89,11 +90,14 @@ export const ShowMovies = ({ items, title, isTopRated }) => {
 
             <Slider {...settings} >
                 {
-                    items.map((item) => (
+                    items.map((item) =>
+                    (
 
-                        <SingleItem isTopRated={isTopRated} key={item.id} handleAddToList={handleAddToList} handleLike={handleLike} handleDislike={handleDislike}
+                        < SingleItem isTopRated={isTopRated} key={item.id} handleAddToList={handleAddToList} handleLike={handleLike} handleDislike={handleDislike}
                             item={item} />
-                    ))
+
+                    )
+                    )
                 }
             </Slider>
         </>

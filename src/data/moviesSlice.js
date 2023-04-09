@@ -9,11 +9,21 @@ export const getTopRatedMovies = createAsyncThunk('getTopRatedMovies', () => {
     return getJsonData('/movies/toprated')
 })
 
+export const getMovieDetails = createAsyncThunk('getMovieDetails', (id) => {
+    return getJsonData("/movies/detail?id=" + id)
+})
+
+export const getMovieVideoSource = createAsyncThunk('getMovieVideoSource', (id) => {
+    return getJsonData("/movies/video?id=" + id)
+})
+
 const moviesSlice = createSlice({
     name: 'movies',
     initialState: {
         trendingMovies: [],
-        topRatedMovies: []
+        topRatedMovies: [],
+        movieDetail: {},
+        movieVideoSource: {}
     },
     extraReducers: (builder) => {
 
@@ -32,6 +42,14 @@ const moviesSlice = createSlice({
 
         builder.addCase(getTopRatedMovies.fulfilled, (state, action) => {
             state.topRatedMovies = action.payload  /// action.payload = response from api
+        })
+
+        builder.addCase(getMovieDetails.fulfilled, (state, action) => {
+            state.movieDetail = action.payload  /// action.payload = response from api
+        })
+
+        builder.addCase(getMovieVideoSource.fulfilled, (state, action) => {
+            state.movieVideoSource = action.payload  /// action.payload = response from api
         })
 
     },

@@ -87,7 +87,7 @@ function Dashboad(props) {
                                     <p>
                                         A large and lovable rabbit deals with three tiny bullies, led by a flying squirrel, who are determined to squelch his happiness.
                                     </p>
-                                    <button className="play_btn" >
+                                    <button className="play-btn" >
                                         <i className="Icon fa fa-play play" />
                                         Play
                                     </button>
