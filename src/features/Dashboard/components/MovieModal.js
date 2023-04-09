@@ -10,9 +10,8 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
-//import { useHistory } from 'react-router-dom';
-
+import { getMovieVideoSource } from '../../../data/moviesSlice.js';
+import { useLoader } from '../../../data/hooks/useLoader'
 
 
 export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handleAddToList, liked, disliked, inList }) => {
@@ -21,6 +20,16 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
 
     const { movieDetail, movieVideoSource } = useSelector(state => state.movies)
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+
+    const { setLoaderSpinning } = useLoader();
+
+    const handlePlayVideo = () => {
+        setLoaderSpinning(true);
+        navigate(`/video`)
+        setLoaderSpinning(false);
+    }
+
     return (
         movieDetail ?
             <>
@@ -33,7 +42,7 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
                         allowFullScreen></iframe>
                     <div className="video-info">
                         <div className="synopsis">
-                            <button className="play-btn" onClick={() => navigate(`/video/${movieVideoSource.key}`)} >
+                            <button className="play-btn" onClick={handlePlayVideo} >
                                 <i className="Icon fa fa-play play" />
                                 Play
                             </button>
@@ -152,7 +161,7 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
                                 }</div>
 
                         </div>
-                    </div>
+                    </div >
                     {
                         movieDetail.type !== "Scripted" &&
                         <div className="footer">

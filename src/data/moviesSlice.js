@@ -27,39 +27,41 @@ const moviesSlice = createSlice({
     },
     extraReducers: (builder) => {
 
-        // builder.addCase(getTrendingMovies.pending, (state, action) => {
-        //     //state.trendingMovies = action.payload  /// action.payload = response from app
-        //     console.log('pending')
+        builder.addCase(getTrendingMovies.pending, (state, action) => {
+            state.trendingMovies = []
 
-        // })
+        })
 
-        //this is what should happen when server will send you response 
-        // response will be available in (action.payload)
         builder.addCase(getTrendingMovies.fulfilled, (state, action) => {
-            state.trendingMovies = action.payload  /// action.payload = response from app
+            state.trendingMovies = action.payload
 
+        })
+
+        builder.addCase(getTopRatedMovies.pending, (state, action) => {
+            state.topRatedMovies = []
         })
 
         builder.addCase(getTopRatedMovies.fulfilled, (state, action) => {
-            state.topRatedMovies = action.payload  /// action.payload = response from api
+            state.topRatedMovies = action.payload
+        })
+
+        builder.addCase(getMovieDetails.pending, (state, action) => {
+            state.movieDetail = {}
         })
 
         builder.addCase(getMovieDetails.fulfilled, (state, action) => {
-            state.movieDetail = action.payload  /// action.payload = response from api
+            state.movieDetail = action.payload
+        })
+
+        builder.addCase(getMovieVideoSource.pending, (state, action) => {
+            state.movieVideoSource = {}
         })
 
         builder.addCase(getMovieVideoSource.fulfilled, (state, action) => {
-            state.movieVideoSource = action.payload  /// action.payload = response from api
+            state.movieVideoSource = action.payload
         })
 
-    },
-
-    reducers: {
-        changeTrendingMovies: (state, action) => {
-            state.trendingMovies = action.payload
-        }
     }
 })
 
-export const { changeTrendingMovies } = moviesSlice.actions;
 export default moviesSlice;

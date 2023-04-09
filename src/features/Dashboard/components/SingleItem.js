@@ -11,6 +11,8 @@ import { MovieModal } from "./MovieModal";
 import { useNavigate } from 'react-router';
 import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
+import { useLoader } from '../../../data/hooks/useLoader'
+
 
 const highlightStyle = { backgroundColor: "white", color: "black" }
 
@@ -19,17 +21,26 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
-    const { movieVideoSource } = useSelector(state => state.movies)
+    const { movieVideoSource } = useSelector(state => state.movies);
 
-    const handlePlayVideo = () => {
-        dispatch(getMovieVideoSource(item.id));
-        navigate(`/video/${movieVideoSource.key}`)
+    const { setLoaderSpinning } = useLoader();
+
+    const handlePlayVideo = async () => {
+        setLoaderSpinning(true);
+        await dispatch(getMovieVideoSource(item.id));
+        console.log('call video')
+        console.log(movieVideoSource.key)
+        //navigate(`/video/${movieVideoSource.key}`)
+        navigate(`/video`)
+        setLoaderSpinning(false);
     }
 
-    const handleModalButton = () => {
-        dispatch(getMovieDetails(item.id));
-        dispatch(getMovieVideoSource(item.id));
+    const handleModalButton = async () => {
+        setLoaderSpinning(true);
+        await dispatch(getMovieDetails(item.id));
+        await dispatch(getMovieVideoSource(item.id));
         setModalOpen(true)
+        setLoaderSpinning(false);
 
     }
 

@@ -9,6 +9,7 @@ import MovieList from './components/MovieList';
 import { MovieModal } from './components/MovieModal';
 import { Backdrop, Modal } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
+import { useLoader } from '../../data/hooks/useLoader'
 
 
 //import { getSearchSuccess } from '../../Redux/Search/action'
@@ -32,9 +33,10 @@ function Dashboad(props) {
     const { trendingMovies, topRatedMovies, movieDetail, movieVideoSource } = useSelector(state => state.movies)
 
     const [modalOpen, setModalOpen] = useState(false);
+    const { setLoaderSpinning } = useLoader();
 
     const handlePlayVideo = () => {
-        navigate(`/video/${movieVideoSource.key}`)
+        navigate(`/video`)
     }
 
     const handleModalButton = () => {
@@ -97,10 +99,16 @@ function Dashboad(props) {
     // }, []);
 
     useEffect(() => {
-        dispatch(getMovieDetails(419704));
-        dispatch(getMovieVideoSource(419704));
-        dispatch(getTrendingMovies())
-        dispatch(getTopRatedMovies())
+        setLoaderSpinning(true);
+        const callDispatchMethods = async () => {
+            await dispatch(getMovieDetails(419704));
+            await dispatch(getMovieVideoSource(419704));
+            await dispatch(getTrendingMovies())
+            await dispatch(getTopRatedMovies())
+            setLoaderSpinning(false);
+        }
+        callDispatchMethods();
+
         const scrollListener = () => {
             if (window.scrollY > 10) {
                 setBlackHeader(true);
@@ -139,7 +147,7 @@ function Dashboad(props) {
                                         <p>
                                             A large and lovable rabbit deals with three tiny bullies, led by a flying squirrel, who are determined to squelch his happiness.
                                         </p>
-                                        <button className="play-btn" onClick={() => navigate(`/video/P6AaSMfXHbA`)} >
+                                        <button className="play-btn" onClick={handlePlayVideo} >
                                             <i className="Icon fa fa-play play" />
                                             Play
                                         </button>
