@@ -135,11 +135,6 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
                         <div className="movie-info-left">
                             <div className="movie-info-left_-first">
                                 <p className="movie-info-left-first_green">{`${movieDetail.vote_average * 10}% Match `}</p>
-                                {
-
-                                    //movieDetail.type !== "Scripted" && <p>{movieDetail.release_date.split("-")[0]}</p>
-                                }
-
                             </div>
                             <div className="movie-info-left-first">
                                 <p>{movieDetail.overview}</p>
