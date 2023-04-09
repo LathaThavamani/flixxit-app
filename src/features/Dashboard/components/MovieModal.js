@@ -17,41 +17,17 @@ import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.
 
 export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handleAddToList, liked, disliked, inList }) => {
     const [mute, setMute] = useState(true);
-    const [seasons, setSeasons] = useState(false);
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     const { movieDetail, movieVideoSource } = useSelector(state => state.movies)
-    console.log(movieVideoSource.key)
-    console.log(movieDetail)
-
-
-    const episodes = (movieDetail ? (movieDetail.seasons ? movieDetail.seasons[0].episodes : []) : []);
-
-    const [episodeList, setEpisodeList] = useState(episodes)
-
-    const [index, setIndex] = useState(0)
     const navigate = useNavigate()
-
-    const handleSeasons = (index) => {
-        setIndex(index)
-        setEpisodeList(movieDetail.seasons[index].episodes)
-        setSeasons(prev => !prev)
-    }
-
-    const handleSeasonButton = () => {
-        setSeasons(prev => !prev)
-
-    }
-
-
-
     return (
         movieDetail ?
             <>
                 <Box className="reactplayer">
                     <iframe style={{
                         marginTop: '-70px',
-                    }} width="100%" title="hello" height="576" src={`https://youtube.com/embed/${movieVideoSource.key}?autoplay=1&showinfo=0&controls=0&mute=1&rel=0`}
+                    }} width="100%" title="hello" height="576" src={`https://youtube.com/embed/${movieVideoSource.key}?autoplay=1&showinfo=0&controls=0&mute=${mute}&rel=0`}
                         frameBorder="0" autoPlay="1"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen></iframe>
@@ -182,70 +158,6 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
 
                         </div>
                     </div>
-                    {
-                        movieDetail.seasons ? (movieDetail.type === "Scripted" && movieDetail.seasons.length !== 0 &&
-
-                            <div>
-                                <div className="episode-selector">
-                                    <div className="episode-selector-left">
-                                        <h2>Episodes</h2>
-                                    </div>
-                                    <div className="episode-selector-right">
-                                        <Button variant="outlined" onClick={() => handleSeasonButton()}
-                                        >{`Season  ${index + 1}`}</Button>
-                                    </div>
-                                    {
-                                        seasons &&
-                                        <div className="episode-selector-right-ul">
-                                            <ul>
-                                                {
-                                                    movieDetail.seasons.map((item, i) =>
-                                                        <li key={item.id} onClick={() => handleSeasons(i)}>
-                                                            <h3>{`Season ${i + 1}`}</h3>
-                                                            <p>{`(${item.episodes.length} Episodes)`}</p>
-                                                        </li>
-                                                    )
-                                                }
-                                            </ul>
-                                        </div>
-                                    }
-                                </div>
-                                <div className="episodelist">
-                                    <ul>
-                                        {
-                                            episodeList.length !== 0 && episodeList.map(epi =>
-                                                <li key={epi.id} >
-                                                    <div className="episodelist-ul-li-h1" >
-                                                        <h1>{epi.episode_number}</h1></div>
-                                                    <div className="episodelist-ul-li-img">
-                                                        <img src={`https://image.tmdb.org/t/p/w300/${epi.still_path}`} alt="" />
-                                                    </div>
-                                                    <div className="episodelist-ul-li-info">
-                                                        <div>
-                                                            <h4>
-                                                                {epi.name}
-                                                            </h4>
-                                                        </div>
-                                                        <div>
-                                                            <p>{epi.overview}</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            )
-                                        }
-                                        <li>
-                                            <div className="footer">
-                                                <h1>
-                                                    Title: {movieDetail.name}
-                                                </h1>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div >
-
-                            </div >)
-                            : <div></div>
-                    }
                     {
                         movieDetail.type !== "Scripted" &&
                         <div className="footer">

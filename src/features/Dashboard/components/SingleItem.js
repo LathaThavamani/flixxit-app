@@ -17,12 +17,16 @@ const highlightStyle = { backgroundColor: "white", color: "black" }
 export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, applyClass = "" }) => {
     //const { currentProfile } = useSelector(state => state.profiles);
     const navigate = useNavigate();
-    //const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
+    const { movieVideoSource } = useSelector(state => state.movies)
 
+    const handlePlayVideo = () => {
+        dispatch(getMovieVideoSource(item.id));
+        navigate(`/video/${movieVideoSource.key}`)
+    }
 
-    const handleModalButton = async () => {
+    const handleModalButton = () => {
         dispatch(getMovieDetails(item.id));
         dispatch(getMovieVideoSource(item.id));
         setModalOpen(true)
@@ -62,8 +66,8 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
                         <img alt="movie poster" src={`https://image.tmdb.org/t/p/w300${item.poster_path}`} />
                     </div>
                     <ul className="icons">
-                        {/* <li onClick={() => navigate(`/video/${item.video}`)}><PlayArrowIcon />  </li> */}
-                        <li><PlayArrowIcon />  </li>
+                        <li onClick={() => handlePlayVideo(item.id)}><PlayArrowIcon />  </li>
+                        {/* <li><PlayArrowIcon />  </li> */}
 
                         {
 
