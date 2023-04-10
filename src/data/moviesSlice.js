@@ -17,13 +17,18 @@ export const getMovieVideoSource = createAsyncThunk('getMovieVideoSource', (id) 
     return getJsonData("/movies/video?id=" + id)
 })
 
+export const getMoviesBySearchText = createAsyncThunk('getMoviesBySearchText', (searchText) => {
+    return getJsonData("/movies/search?searchText=" + searchText)
+})
+
 const moviesSlice = createSlice({
     name: 'movies',
     initialState: {
         trendingMovies: [],
         topRatedMovies: [],
         movieDetail: {},
-        movieVideoSource: {}
+        movieVideoSource: {},
+        searchResults: []
     },
     extraReducers: (builder) => {
 
@@ -59,6 +64,10 @@ const moviesSlice = createSlice({
 
         builder.addCase(getMovieVideoSource.fulfilled, (state, action) => {
             state.movieVideoSource = action.payload
+        })
+
+        builder.addCase(getMoviesBySearchText.fulfilled, (state, action) => {
+            state.searchResults = action.payload
         })
 
     }

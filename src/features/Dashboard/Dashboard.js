@@ -10,13 +10,14 @@ import { MovieModal } from './components/MovieModal';
 import { Backdrop, Modal } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useLoader } from '../../data/hooks/useLoader'
+import { Search } from '../Search/components/Search';
 
 
 //import { getSearchSuccess } from '../../Redux/Search/action'
 
 //import { makeGetMoviesRequest } from '../../Redux/Movies/action.js';
 //import { makeGetSeriesRequest } from '../../Redux/TvShows/action';
-//import { Search } from '../Search/Search';
+
 //import { getProfiles, setCurrentProfile } from '../../Redux/Profile/actions/profileActions';
 //import Loader from '../../Components/Loader/Loader';
 
@@ -28,9 +29,7 @@ function Dashboad(props) {
     const [play, setPlay] = useState(true);
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    // dispatch(getTrendingMovies())
-    // dispatch(getTopRatedMovies())
-    const { trendingMovies, topRatedMovies, movieDetail, movieVideoSource } = useSelector(state => state.movies)
+    const { trendingMovies, topRatedMovies, movieDetail, searchResults } = useSelector(state => state.movies)
 
     const [modalOpen, setModalOpen] = useState(false);
     const { setLoaderSpinning } = useLoader();
@@ -81,7 +80,6 @@ function Dashboad(props) {
     }
 
     //const { series } = useSelector(state => state.series)
-    //const { searchResults: searchList } = useSelector((state) => state.search)
     //const { currentProfile } = useSelector(state => state.profiles)
 
 
@@ -131,71 +129,72 @@ function Dashboad(props) {
 
             {
                 <>
-                    {/* //isLoading ? <Loader /> :
-                    //searchList.length === 0 ? */}
-                    <div className="page">
-                        <div className="root">
+                    {
+                        searchResults.length === 0 ?
+                            <div className="page">
+                                <div className="root">
 
-                            <div className="player">
-                                <video aloop="1" autoPlay={play} muted={mute} width="100%"
-                                    poster="https://i.ytimg.com/vi/htvVnHnroQ4/maxresdefault.jpg"
-                                    src="https://mphomeservices.it/videos/Ad%20Astra%20_%20Official%20Trailer%20%5BHD%5D%20_%2020th%20Century%20FOX.mp4"
-                                >
-                                </video>
-                                <div className="video-info">
-                                    <div className="synopsis">
-                                        <p>
-                                            A large and lovable rabbit deals with three tiny bullies, led by a flying squirrel, who are determined to squelch his happiness.
-                                        </p>
-                                        <button className="play-btn" onClick={handlePlayVideo} >
-                                            <i className="Icon fa fa-play play" />
-                                            Play
-                                        </button>
-                                        <button onClick={handleModalButton}>
-                                            <i className="Icon fa fa-info-circle info-circle" />
-                                            More Info
-                                        </button>
+                                    <div className="player">
+                                        <video aloop="1" autoPlay={play} muted={mute} width="100%"
+                                            poster="https://i.ytimg.com/vi/htvVnHnroQ4/maxresdefault.jpg"
+                                            src="https://mphomeservices.it/videos/Ad%20Astra%20_%20Official%20Trailer%20%5BHD%5D%20_%2020th%20Century%20FOX.mp4"
+                                        >
+                                        </video>
+                                        <div className="video-info">
+                                            <div className="synopsis">
+                                                <p>
+                                                    A large and lovable rabbit deals with three tiny bullies, led by a flying squirrel, who are determined to squelch his happiness.
+                                                </p>
+                                                <button className="play-btn" onClick={handlePlayVideo} >
+                                                    <i className="Icon fa fa-play play" />
+                                                    Play
+                                                </button>
+                                                <button onClick={handleModalButton}>
+                                                    <i className="Icon fa fa-info-circle info-circle" />
+                                                    More Info
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="video-info-right">
+                                            <div
+                                                onClick={() => setMute(prev => !prev)}
+                                            >
+                                                {!mute ? <VolumeUpIcon style={{
+                                                    color: '#fff',
+                                                    cursor: 'pointer'
+                                                }} />
+                                                    :
+                                                    <VolumeOffIcon style={{
+                                                        color: '#fff',
+                                                        cursor: 'pointer'
+                                                    }} />}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className="video-bottom"
+                                        >
+
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="video-info-right">
-                                    <div
-                                        onClick={() => setMute(prev => !prev)}
-                                    >
-                                        {!mute ? <VolumeUpIcon style={{
-                                            color: '#fff',
-                                            cursor: 'pointer'
-                                        }} />
-                                            :
-                                            <VolumeOffIcon style={{
-                                                color: '#fff',
-                                                cursor: 'pointer'
-                                            }} />}
-                                    </div>
-                                </div>
-                                <div
-                                    className="video-bottom"
-                                >
+                                {
+                                    trendingMovies.length ? <section>
+                                        {/* {trendingMovies.map((item, key) => ( */}
+                                        <MovieList isTopRated={false} title={"Trending"} items={trendingMovies} />
+                                        {/* ))} */}
+                                    </section> : <></>
+                                }
 
-                                </div>
-                            </div>
-                        </div>
-                        {
-                            trendingMovies.length ? <section>
-                                {/* {trendingMovies.map((item, key) => ( */}
-                                <MovieList isTopRated={false} title={"Trending"} items={trendingMovies} />
-                                {/* ))} */}
-                            </section> : <></>
-                        }
-
-                        {
-                            topRatedMovies.length ? <section>
-                                {/* {topRatedMovies.map((item, key) => ( */}
-                                <MovieList isTopRated={true} title={"Top Rated"} items={topRatedMovies} />
-                                {/* ))} */}
-                            </section> : <></>
-                        }
-                    </div >
-                    {/* // : <Search /> */}
+                                {
+                                    topRatedMovies.length ? <section>
+                                        {/* {topRatedMovies.map((item, key) => ( */}
+                                        <MovieList isTopRated={true} title={"Top Rated"} items={topRatedMovies} />
+                                        {/* ))} */}
+                                    </section> : <></>
+                                }
+                            </div >
+                            : <Search />
+                    }
                     <Modal
                         open={modalOpen}
                         onClose={handleClose}

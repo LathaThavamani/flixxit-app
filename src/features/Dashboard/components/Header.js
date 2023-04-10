@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import "../../../styles/DashboardHeader.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-//import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //import { setCurrentProfile } from "../../../Redux/Profile/actions/profileActions";
 
 import { DebounceInput } from "react-debounce-input";
-// import {
-//     getSearchSuccess,
-//     makeGetSearchRequest,
-// } from "../../../Redux/Search/action";
-// import { Search } from "../../Search/Search";
+//import { Search } from "../../Search/Search";
 import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList } from "@mui/material";
+import { getMoviesBySearchText } from '../../../data/moviesSlice.js';
+import { useLoader } from '../../../data/hooks/useLoader'
+
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 // import Grow from "@material-ui/core/Grow";
 // import Paper from "@material-ui/core/Paper";
@@ -31,17 +30,17 @@ import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList } fr
 // }));
 
 function Header({ black }) {
-    const [searchBox, setSearchBox] = useState(false);
 
-    // const dispatch = useDispatch();
+    const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox } = useLoader();
+    const dispatch = useDispatch();
     // const profiles = useSelector((state) => state.profiles.profile);
     // const currentProf = useSelector((state) => state.profiles.currentProfile);
 
     //const params = useParams();
 
-    const [search, setSearch] = useState(
-        //history.location.search.split("=")[1] || ""
-    );
+    //const [search, setSearch] = useState(
+    //history.location.search.split("=")[1] || ""
+    //);
     // const showProfiles = profiles.filter((item) => {
     //     return item._id !== currentProf._id;
     // });
@@ -98,14 +97,15 @@ function Header({ black }) {
     };
 
     const Debouncer = (e) => {
-        // if (e.length > 0) {
-        //     dispatch(makeGetSearchRequest(e));
-        //     history.push(`/browse?q=${e}`);
-        // } else {
-        //     dispatch(makeGetSearchRequest(""));
-        //     history.push(`/browse`);
-        // }
-        //setSearch(e);
+        //if (e.length > 0) {
+        setLoaderSpinning(true);
+        const callGetMoviesBySearch = async () => {
+            dispatch(getMoviesBySearchText(e));
+            setLoaderSpinning(false);
+        }
+        callGetMoviesBySearch();
+        //}
+        setSearch(e);
     };
     const handleOpen = () => {
         open ? setOpen(false) : setOpen(true);
@@ -197,7 +197,7 @@ function Header({ black }) {
                             minLength={2}
                             value={search}
                             placeholder="Titles, People, Genres..."
-                            onBlur={() => setSearchBox(false)}
+                            //onBlur={() => setSearchBox(false)}
                             debounceTimeout={1000}
                             onChange={(e) => {
                                 Debouncer(e.target.value);
