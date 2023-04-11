@@ -32,6 +32,7 @@ import { useLoader } from '../../../data/hooks/useLoader'
 function Header({ black }) {
 
     const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox } = useLoader();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     // const profiles = useSelector((state) => state.profiles.profile);
     // const currentProf = useSelector((state) => state.profiles.currentProfile);
@@ -91,9 +92,9 @@ function Header({ black }) {
         //dispatch(setCurrentProfile(item));
     };
 
-    const handleLogout = () => {
-        //localStorage.removeItem("token");
-        //history.push("/login");
+    const handleSignout = () => {
+        localStorage.clear();
+        navigate("/signin");
     };
 
     const Debouncer = (e) => {
@@ -237,7 +238,7 @@ function Header({ black }) {
                             </div> */}
                             <div className="profile-box-line"></div>
                             <div className="profile-text-bottom">Account</div>
-                            <div onClick={handleLogout} className="profile-text-bottom">
+                            <div onClick={handleSignout} className="profile-text-bottom">
                                 Sign out
                             </div>
                         </div>

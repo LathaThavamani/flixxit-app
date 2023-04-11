@@ -98,6 +98,9 @@ function Dashboad(props) {
 
     useEffect(() => {
         setLoaderSpinning(true);
+        if (!localStorage.getItem('token')) {
+            navigate('/signin')
+        }
         const callDispatchMethods = async () => {
             await dispatch(getMovieDetails(419704));
             await dispatch(getMovieVideoSource(419704));

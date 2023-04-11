@@ -1,24 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../styles/Home.css'
 import '../../styles/Signup.css'
 import { TextField } from '@mui/material';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useLoader } from '../../data/hooks/useLoader'
+import { postJsonData } from '../../utilities/APIUtilities'
 
 const Signup = () => {
     const location = useLocation();
     const [email, setEmail] = useState(location.state?.email || "")
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
     const navigate = useNavigate();
+    const { setLoaderSpinning } = useLoader();
 
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         navigate('/dashboard')
+    //     }
+    // })
 
     const returnToHome = () => {
         navigate("/");
     }
 
     const handleSubmit = () => {
-        if (email && password) {
-            navigate('/dashboard')
+
+        if (email && name && password) {
+            let obj = {
+                'useremail': email,
+                'username': name,
+                'password': password
+            }
+            setLoaderSpinning(true)
+            postJsonData('/signup', obj).then(x => {
+                x.message == "created" ? navigate('/signin') : alert(x.message)
+                setLoaderSpinning(false)
+            })
         } else {
             setError(true)
         }
@@ -50,6 +69,17 @@ const Signup = () => {
                         <div className="register_form_input">
                             <TextField
                                 variant="filled"
+                                label="name"
+                                fullWidth
+                                color='warning'
+                                type='text'
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className="register_form_input">
+                            <TextField
+                                variant="filled"
                                 label="Password"
                                 fullWidth
                                 color='warning'
@@ -58,7 +88,7 @@ const Signup = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        {error && <div style={{ color: 'red', fontSize: 'small' }}>Please fill email and password fields</div>}
+                        {error && <div style={{ color: 'red', fontSize: 'small' }}>Please fill email,name and password fields</div>}
                         <div>
                             <button onClick={() => handleSubmit()}>Sign Up</button>
                         </div>

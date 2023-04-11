@@ -31,21 +31,21 @@
     padding: 30px 50px 100px 50px;
 }
 
-.full input {
-    width: 80%;
-    padding: 16px 14px;
-    background-color: #333333;
-    border: none;
-    margin: 10px 10px 0px 10px;
-    border-radius: 5px;
-    outline: none;
-    font-size: 1rem;
-    padding-left: 20px;
+.signin_form_input {
+    background-color: #fff;
+    border-radius: 2px;
+    margin: 0.5rem 0rem;
+    border: 1px solid grey;
 }
 
-.full input::placeholder {
-    color: #8c8c8c !important;
+.signin_form_input input {
+    background-color: #fff;
 }
+
+
+/* .full input::placeholder {
+    color: #8c8c8c !important;
+} */
 
 .signin {
     background-color: #e63631;
@@ -61,9 +61,9 @@
     margin-left: 10px;
 }
 
-.full input:focus {
+/* .full input:focus {
     background-color: white;
-}
+} */
 
 .bottom {
     display: flex;

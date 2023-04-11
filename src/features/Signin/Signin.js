@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/Signin.css'
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import validator from 'email-validator'
+import { TextField } from '@mui/material';
+//import { baseURL } from '../../data/constants.js'
+import { useLoader } from '../../data/hooks/useLoader'
+//import { getJsonData } from '../../utilities/APIUtilities'
 
 const Signin = () => {
 
@@ -15,6 +19,13 @@ const Signin = () => {
     const [emailErr, setEmailErr] = useState(false)
     const [passErr, setPassErr] = useState(false)
     const [err, setErr] = useState("")
+    const { setLoaderSpinning } = useLoader();
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            navigate('/dashboard')
+        }
+    })
 
     const handleEmail = (e) => {
         e.preventDefault()
@@ -49,7 +60,26 @@ const Signin = () => {
         }
 
         else {
-            navigate("/dashboard")
+            setLoaderSpinning(true)
+            fetch('http://localhost:3001' + '/users/generate-token', {
+                method: 'GET',
+                headers: {
+                    useremail: email,
+                    password: password
+                }
+            }).then(res => res.json())
+                .then(response => {
+                    setLoaderSpinning(false)
+                    if (response.message == "Un Authorized") {
+                        localStorage.clear()
+                        alert("Un Authorized")
+                    } else {
+                        localStorage.setItem("username", response.username)
+                        localStorage.setItem("token", response.token)
+                        navigate("/dashboard")
+                    }
+                })
+
         }
     }
 
@@ -64,13 +94,31 @@ const Signin = () => {
                         <h2>Sign in</h2>
                     </div>
                     {err && <div className="error1">  {err} <Link to="/login" > create a new account. </Link> </div>}
-                    <div>
-                        <input placeholder="Email" className={email.length > 0 ? "inputbox" : "floating"} type="text" value={email} onChange={handleEmail} />
-                        {emailErr && <div className="error"> <div className="line"></div> <div className="errtext">Please enter a valid email address or phone number.</div> </div>}
+                    <div className="signin_form_input">
+                        <TextField
+                            variant="filled"
+                            label="Email"
+                            fullWidth
+                            color='warning'
+                            type='text'
+                            value={email}
+                            onChange={handleEmail}
+                        />
+                        {/* <input placeholder="Email" className={email.length > 0 ? "inputbox" : "floating"} type="text" value={email} onChange={handleEmail} /> */}
+                        {emailErr && <div className="error"> <div className="errtext">Please enter a valid email address.</div> </div>}
                     </div>
-                    <div>
-                        <input placeholder="Password" className={password.length > 0 ? "inputbox" : "floating"} type="password" value={password} onChange={handlePassword} />
-                        {passErr && <div className="error"> <div className="line"></div> <div className="errtext">Your password must contain between 4 and 60 characters.</div> </div>}
+                    <div className="signin_form_input">
+                        <TextField
+                            variant="filled"
+                            label="Password"
+                            fullWidth
+                            color='warning'
+                            type='password'
+                            value={password}
+                            onChange={handlePassword}
+                        />
+                        {/* <input placeholder="Password" className={password.length > 0 ? "inputbox" : "floating"} type="password" value={password} onChange={handlePassword} /> */}
+                        {passErr && <div className="error"> <div className="errtext">Your password must contain between 4 and 60 characters.</div> </div>}
                     </div>
                     <div>
                         <button onClick={handleLogin} className="signin">Sign In</button>
