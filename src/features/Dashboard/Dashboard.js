@@ -5,6 +5,7 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { Layout } from './components/Layout';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTopRatedMovies, getTrendingMovies, getMovieDetails, getMovieVideoSource } from '../../data/moviesSlice.js';
+import { getUserProfile } from '../../data/userSlice.js';
 import MovieList from './components/MovieList';
 import { MovieModal } from './components/MovieModal';
 import { Backdrop, Modal } from "@mui/material";
@@ -13,13 +14,7 @@ import { useLoader } from '../../data/hooks/useLoader'
 import { Search } from '../Search/components/Search';
 
 
-//import { getSearchSuccess } from '../../Redux/Search/action'
-
-//import { makeGetMoviesRequest } from '../../Redux/Movies/action.js';
-//import { makeGetSeriesRequest } from '../../Redux/TvShows/action';
-
 //import { getProfiles, setCurrentProfile } from '../../Redux/Profile/actions/profileActions';
-//import Loader from '../../Components/Loader/Loader';
 
 
 
@@ -29,6 +24,8 @@ function Dashboad(props) {
     const [play, setPlay] = useState(true);
     const navigate = useNavigate()
     const dispatch = useDispatch();
+
+    let userProfile = localStorage.getItem('userProfile')
     const { trendingMovies, topRatedMovies, movieDetail, searchResults } = useSelector(state => state.movies)
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -48,18 +45,17 @@ function Dashboad(props) {
     }
 
     const isLiked = (id) => {
-
-        //return currentProfile.likes.includes(id)
+        return userProfile.likes && userProfile.likes.length > 0 ? userProfile.likes.includes(id) : false;
     }
 
     const isDisLiked = (id) => {
-
-        //return currentProfile.dislikes.includes(id)
+        return userProfile.dislikes && userProfile.dislikes.length > 0 ? userProfile.dislikes.includes(id) : false;
     }
 
     const isInList = (id) => {
-        // const index = currentProfile.myList.findIndex(list => list._id === id)
-        // return index > -1 ? true : false
+        const index = userProfile.myList && userProfile.myList.length > 0 ?
+            (userProfile.myList.findIndex(list => list._id === id)) : -1;
+        return index > -1 ? true : false
     }
 
     const liked = isLiked(movieDetail.id)
@@ -79,10 +75,6 @@ function Dashboad(props) {
     const handleAddToList = (showId) => {
     }
 
-    //const { series } = useSelector(state => state.series)
-    //const { currentProfile } = useSelector(state => state.profiles)
-
-
     // useEffect(() => {
     //     dispatch(getTrendingMovies())
     //     dispatch(getTopRatedMovies())
@@ -101,7 +93,9 @@ function Dashboad(props) {
         if (!localStorage.getItem('token')) {
             navigate('/signin')
         }
+
         const callDispatchMethods = async () => {
+
             await dispatch(getMovieDetails(419704));
             await dispatch(getMovieVideoSource(419704));
             await dispatch(getTrendingMovies())
@@ -124,8 +118,6 @@ function Dashboad(props) {
             window.removeEventListener('scroll', scrollListener);
         }
     }, []);
-
-
 
     return (
         <Layout>

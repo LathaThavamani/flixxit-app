@@ -28,8 +28,6 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
     const handlePlayVideo = async () => {
         setLoaderSpinning(true);
         await dispatch(getMovieVideoSource(item.id));
-        console.log('call video')
-        console.log(movieVideoSource.key)
         //navigate(`/video/${movieVideoSource.key}`)
         navigate(`/video`)
         setLoaderSpinning(false);

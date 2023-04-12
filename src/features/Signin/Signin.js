@@ -6,11 +6,14 @@ import { TextField } from '@mui/material';
 //import { baseURL } from '../../data/constants.js'
 import { useLoader } from '../../data/hooks/useLoader'
 //import { getJsonData } from '../../utilities/APIUtilities'
+import { getUserProfile } from '../../data/userSlice.js';
+import { useDispatch } from 'react-redux'
 
 const Signin = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
     let emailHistory = location.state?.email || ""
 
     const [email, setEmail] = useState(emailHistory)
@@ -74,8 +77,20 @@ const Signin = () => {
                         localStorage.clear()
                         alert("Un Authorized")
                     } else {
+                        localStorage.setItem("userId", response.userId)
                         localStorage.setItem("username", response.username)
                         localStorage.setItem("token", response.token)
+                        const userId = localStorage.getItem('userId')
+                        fetch('http://localhost:3001/profile?id=' + userId, {
+                            method: 'GET',
+                            headers: {
+                                token: localStorage.getItem('token')
+                            }
+                        })
+                            .then(res => res.json())
+                            .then(response => {
+                                localStorage.setItem('userProfile', JSON.stringify(response.user))
+                            })
                         navigate("/dashboard")
                     }
                 })

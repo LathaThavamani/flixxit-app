@@ -31,7 +31,10 @@ const Signup = () => {
             let obj = {
                 'useremail': email,
                 'username': name,
-                'password': password
+                'password': password,
+                'likes': [],
+                'dislikes': [],
+                'myList': []
             }
             setLoaderSpinning(true)
             postJsonData('/signup', obj).then(x => {
