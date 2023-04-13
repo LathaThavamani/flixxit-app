@@ -1,39 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
+import '../styles/HomeFAQ.css'
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '60%',
-        minWidth: '600px',
-        margin: '5px auto',
-    },
-    heading: {
-        fontSize: '20rem',
-        fontWeight: 'bold'
-    },
-    container: {
-        backgroundColor: '#333',
-        color: "#fff"
-    }
-}));
 
 const HomeFAQ = ({ data }) => {
-    const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className="homeFAQ-root">
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    className={classes.container}
+                    className="homeFAQ-container"
                     id="panel1a-header"
                 >
-                    <Typography className={classes.heading}>{data.header}</Typography>
+                    <Typography className="homeFAQ-heading">{data.header}</Typography>
                 </AccordionSummary>
-                <AccordionDetails className={classes.container}>
+                <AccordionDetails className="homeFAQ-container">
                     <Typography>
                         {data.body}
                     </Typography>
