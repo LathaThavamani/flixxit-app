@@ -10,6 +10,14 @@ export const updateUserProfileLikes = createAsyncThunk('updateUserProfileLikes',
     return putJsonData('/profile/likes?id=' + user._id + '&field=likes', user.likes)
 })
 
+export const updateUserProfileDislikes = createAsyncThunk('updateUserProfileDislikes', (user) => {
+    return putJsonData('/profile/dislikes?id=' + user._id + '&field=dislikes', user.dislikes)
+})
+
+export const updateUserProfileMylist = createAsyncThunk('updateUserProfileMylist', (user) => {
+    return putJsonData('/profile/mylist?id=' + user._id + '&field=myList', user.myList)
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -22,6 +30,14 @@ const userSlice = createSlice({
         })
 
         builder.addCase(updateUserProfileLikes.fulfilled, (state, action) => {
+
+        })
+
+        builder.addCase(updateUserProfileDislikes.fulfilled, (state, action) => {
+
+        })
+
+        builder.addCase(updateUserProfileMylist.fulfilled, (state, action) => {
 
         })
     }

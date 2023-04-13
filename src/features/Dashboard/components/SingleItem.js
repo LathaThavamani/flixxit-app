@@ -10,7 +10,7 @@ import { Backdrop, Modal } from "@mui/material";
 import { MovieModal } from "./MovieModal";
 import { useNavigate } from 'react-router';
 import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
-import { setUserProfile, updateUserProfileLikes } from '../../../data/userSlice.js';
+import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist } from '../../../data/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoader } from '../../../data/hooks/useLoader'
 
@@ -78,7 +78,7 @@ export const SingleItem = ({ item, applyClass = "" }) => {
 
 
     const handleLike = async (movieId) => {
-        setLoaderSpinning(true);
+        //setLoaderSpinning(true);
         let obj = {};
         obj._id = userProfile._id;
         obj.useremail = userProfile.useremail;
@@ -93,10 +93,10 @@ export const SingleItem = ({ item, applyClass = "" }) => {
         obj.myList = [...userProfile.myList];
         await dispatch(updateUserProfileLikes(obj))
         await dispatch(setUserProfile(obj));
-        setLoaderSpinning(false);
+        //setLoaderSpinning(false);
     }
 
-    const handleDislike = (movieId) => {
+    const handleDislike = async (movieId) => {
         let obj = {};
         obj._id = userProfile._id;
         obj.useremail = userProfile.useremail;
@@ -109,18 +109,11 @@ export const SingleItem = ({ item, applyClass = "" }) => {
         obj.likes = [...userProfile.likes];
         obj.dislikes = [...newDislikes];
         obj.myList = [...userProfile.myList];
-        dispatch(setUserProfile(obj));
-
-        // let tempUserProfile = userProfile;
-        // let tempDislikes = [...tempUserProfile.dislikes]
-        // let isDisLikeExist = tempDislikes && tempDislikes.filter(x => x === movieId).length > 0 ? true : false;
-        // let filteredDisLikes = tempDislikes ? tempDislikes.filter(x => x !== movieId) : [];
-        // tempUserProfile.dislikes = !isDisLikeExist ? [...tempDislikes, movieId] : [...filteredDisLikes];
-        // dispatch(setUserProfile(tempUserProfile));
-
+        await dispatch(updateUserProfileDislikes(obj))
+        await dispatch(setUserProfile(obj));
     }
 
-    const handleAddToList = (movieId) => {
+    const handleAddToList = async (movieId) => {
         let obj = {};
         obj._id = userProfile._id;
         obj.useremail = userProfile.useremail;
@@ -133,15 +126,8 @@ export const SingleItem = ({ item, applyClass = "" }) => {
         obj.likes = [...userProfile.likes];
         obj.dislikes = [...userProfile.dislikes];
         obj.myList = [...newMylist];
+        await dispatch(updateUserProfileMylist(obj))
         dispatch(setUserProfile(obj));
-
-        // let tempUserProfile = userProfile;
-        // let tempMylist = [...tempUserProfile.myList]
-        // let isMylistExist = tempMylist && tempMylist.filter(x => x === movieId).length > 0 ? true : false;
-        // let filteredMylist = tempMylist ? tempMylist.filter(x => x !== movieId) : [];
-        // tempUserProfile.myList = !isMylistExist ? [...tempMylist, movieId] : [...filteredMylist];
-        // dispatch(setUserProfile(tempUserProfile));
-
     }
 
 
