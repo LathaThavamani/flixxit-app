@@ -6,7 +6,7 @@ import { TextField } from '@mui/material';
 //import { baseURL } from '../../data/constants.js'
 import { useLoader } from '../../data/hooks/useLoader'
 //import { getJsonData } from '../../utilities/APIUtilities'
-//import { setUserProfile } from '../../data/userSlice.js';
+import { setUserProfile } from '../../data/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
 
 const Signin = () => {
@@ -76,7 +76,7 @@ const Signin = () => {
                     setLoaderSpinning(false)
                     if (response.message == "Un Authorized") {
                         localStorage.clear()
-                        alert("Un Authorized")
+                        alert("Please enter valid user email & password")
                     } else {
                         localStorage.setItem("userId", response.userId)
                         localStorage.setItem("username", response.username)
@@ -89,9 +89,9 @@ const Signin = () => {
                             }
                         })
                             .then(res => res.json())
-                            .then(response => {
+                            .then(async (response) => {
                                 localStorage.setItem('userProfile', JSON.stringify(response.user))
-                                // dispatch(setUserProfile(response.user))
+                                await dispatch(setUserProfile(response.user))
                             })
 
                         //let profile = localStorage.getItem('userProfile');

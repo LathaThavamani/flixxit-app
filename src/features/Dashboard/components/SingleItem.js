@@ -10,7 +10,7 @@ import { Backdrop, Modal } from "@mui/material";
 import { MovieModal } from "./MovieModal";
 import { useNavigate } from 'react-router';
 import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
-import { setUserProfile } from '../../../data/userSlice.js';
+import { setUserProfile, updateUserProfileLikes } from '../../../data/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoader } from '../../../data/hooks/useLoader'
 
@@ -27,7 +27,7 @@ export const SingleItem = ({ item, applyClass = "" }) => {
     const { userProfile } = useSelector(state => state.user);
     //const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) });
     const { setLoaderSpinning } = useLoader();
-
+    // dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
     // const updateUserProfile = (newProfile) => {
     //     localStorage.setItem("userProfile", JSON.stringify(newProfile))
     //     //setProfile({ ...JSON.parse(localStorage.getItem('userProfile')) });
@@ -77,7 +77,8 @@ export const SingleItem = ({ item, applyClass = "" }) => {
     const inList = isInList(item.id)
 
 
-    const handleLike = (movieId) => {
+    const handleLike = async (movieId) => {
+        setLoaderSpinning(true);
         let obj = {};
         obj._id = userProfile._id;
         obj.useremail = userProfile.useremail;
@@ -90,25 +91,9 @@ export const SingleItem = ({ item, applyClass = "" }) => {
         obj.likes = [...newLikes];
         obj.dislikes = [...userProfile.dislikes];
         obj.myList = [...userProfile.myList];
-        dispatch(setUserProfile(obj));
-
-        // let tempUserProfile = userProfile;
-        // let tempLikes = [...tempUserProfile.likes]
-        // let isExist = tempLikes && tempLikes.filter(x => x === movieId).length > 0 ? true : false;
-        // let filteredLikes = tempLikes ? tempLikes.filter(x => x !== movieId) : [];
-        // let newLikes = !isExist ? [...tempLikes, movieId] : [...filteredLikes];
-        // tempUserProfile.likes = Object.assign({}, newLikes)
-        // //Object.assign(tempUserProfile.likes, ...newLikes)
-        // dispatch(setUserProfile(tempUserProfile));
-
-        // let obj = {
-        //     'likes': []
-        // }
-        // setLoaderSpinning(true)
-        // postJsonData('/signup', obj).then(x => {
-        //     x.message == "created" ? navigate('/signin') : alert(x.message)
-        //     setLoaderSpinning(false)
-        // })
+        await dispatch(updateUserProfileLikes(obj))
+        await dispatch(setUserProfile(obj));
+        setLoaderSpinning(false);
     }
 
     const handleDislike = (movieId) => {

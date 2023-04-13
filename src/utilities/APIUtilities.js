@@ -21,3 +21,14 @@ export function postJsonData(url, obj) {
         body: JSON.stringify(obj)
     }).then(res => res.json())
 }
+
+export function putJsonData(url, obj) {
+    return fetch('http://localhost:3001' + url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            token: localStorage.getItem('token')
+        },
+        body: JSON.stringify(obj)
+    }).then(res => res.json())
+}
