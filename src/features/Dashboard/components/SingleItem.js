@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../../../styles/ShowMovies.css"
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CheckIcon from '@mui/icons-material/Check';
@@ -10,20 +10,34 @@ import { Backdrop, Modal } from "@mui/material";
 import { MovieModal } from "./MovieModal";
 import { useNavigate } from 'react-router';
 import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
+import { setUserProfile } from '../../../data/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoader } from '../../../data/hooks/useLoader'
 
 
 const highlightStyle = { backgroundColor: "white", color: "black" }
 
-export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, applyClass = "" }) => {
+//export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, applyClass = "" }) => {
+export const SingleItem = ({ item, applyClass = "" }) => {
     //const { currentProfile } = useSelector(state => state.profiles);
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
     const { movieVideoSource } = useSelector(state => state.movies);
-
+    const { userProfile } = useSelector(state => state.user);
+    //const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) });
     const { setLoaderSpinning } = useLoader();
+
+    // const updateUserProfile = (newProfile) => {
+    //     localStorage.setItem("userProfile", JSON.stringify(newProfile))
+    //     //setProfile({ ...JSON.parse(localStorage.getItem('userProfile')) });
+    // }
+
+
+    // useEffect(() => {
+    //     setProfile({ ...JSON.parse(localStorage.getItem('userProfile')) });
+    //     // console.log(profile)
+    // }, [profile.likes])
 
     const handlePlayVideo = async () => {
         setLoaderSpinning(true);
@@ -47,24 +61,103 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
     }
 
     const isLiked = (id) => {
-
-        //return currentProfile.likes.includes(id)
+        return userProfile.likes && userProfile.likes.length > 0 ? userProfile.likes.includes(id) : false;
     }
 
     const isDisLiked = (id) => {
-
-        //return currentProfile.dislikes.includes(id)
+        return userProfile.dislikes && userProfile.dislikes.length > 0 ? userProfile.dislikes.includes(id) : false;
     }
 
     const isInList = (id) => {
-        // const index = currentProfile.myList.findIndex(list => list._id === id)
-        // return index > -1 ? true : false
+        return userProfile.myList && userProfile.myList.length > 0 ? userProfile.myList.includes(id) : false;
     }
 
     const liked = isLiked(item.id)
     const disliked = isDisLiked(item.id)
     const inList = isInList(item.id)
 
+
+    const handleLike = (movieId) => {
+        let obj = {};
+        obj._id = userProfile._id;
+        obj.useremail = userProfile.useremail;
+        obj.username = userProfile.username;
+        obj.password = userProfile.password;
+        let tempLikes = [...userProfile.likes]
+        let isExist = tempLikes && tempLikes.filter(x => x === movieId).length > 0 ? true : false;
+        let filteredLikes = tempLikes ? tempLikes.filter(x => x !== movieId) : [];
+        let newLikes = !isExist ? [...tempLikes, movieId] : [...filteredLikes];
+        obj.likes = [...newLikes];
+        obj.dislikes = [...userProfile.dislikes];
+        obj.myList = [...userProfile.myList];
+        dispatch(setUserProfile(obj));
+
+        // let tempUserProfile = userProfile;
+        // let tempLikes = [...tempUserProfile.likes]
+        // let isExist = tempLikes && tempLikes.filter(x => x === movieId).length > 0 ? true : false;
+        // let filteredLikes = tempLikes ? tempLikes.filter(x => x !== movieId) : [];
+        // let newLikes = !isExist ? [...tempLikes, movieId] : [...filteredLikes];
+        // tempUserProfile.likes = Object.assign({}, newLikes)
+        // //Object.assign(tempUserProfile.likes, ...newLikes)
+        // dispatch(setUserProfile(tempUserProfile));
+
+        // let obj = {
+        //     'likes': []
+        // }
+        // setLoaderSpinning(true)
+        // postJsonData('/signup', obj).then(x => {
+        //     x.message == "created" ? navigate('/signin') : alert(x.message)
+        //     setLoaderSpinning(false)
+        // })
+    }
+
+    const handleDislike = (movieId) => {
+        let obj = {};
+        obj._id = userProfile._id;
+        obj.useremail = userProfile.useremail;
+        obj.username = userProfile.username;
+        obj.password = userProfile.password;
+        let tempDislikes = [...userProfile.dislikes]
+        let isDisLikeExist = tempDislikes && tempDislikes.filter(x => x === movieId).length > 0 ? true : false;
+        let filteredDisLikes = tempDislikes ? tempDislikes.filter(x => x !== movieId) : [];
+        let newDislikes = !isDisLikeExist ? [...tempDislikes, movieId] : [...filteredDisLikes];
+        obj.likes = [...userProfile.likes];
+        obj.dislikes = [...newDislikes];
+        obj.myList = [...userProfile.myList];
+        dispatch(setUserProfile(obj));
+
+        // let tempUserProfile = userProfile;
+        // let tempDislikes = [...tempUserProfile.dislikes]
+        // let isDisLikeExist = tempDislikes && tempDislikes.filter(x => x === movieId).length > 0 ? true : false;
+        // let filteredDisLikes = tempDislikes ? tempDislikes.filter(x => x !== movieId) : [];
+        // tempUserProfile.dislikes = !isDisLikeExist ? [...tempDislikes, movieId] : [...filteredDisLikes];
+        // dispatch(setUserProfile(tempUserProfile));
+
+    }
+
+    const handleAddToList = (movieId) => {
+        let obj = {};
+        obj._id = userProfile._id;
+        obj.useremail = userProfile.useremail;
+        obj.username = userProfile.username;
+        obj.password = userProfile.password;
+        let tempMylist = [...userProfile.myList]
+        let isMylistExist = tempMylist && tempMylist.filter(x => x === movieId).length > 0 ? true : false;
+        let filteredMylist = tempMylist ? tempMylist.filter(x => x !== movieId) : [];
+        let newMylist = !isMylistExist ? [...tempMylist, movieId] : [...filteredMylist];
+        obj.likes = [...userProfile.likes];
+        obj.dislikes = [...userProfile.dislikes];
+        obj.myList = [...newMylist];
+        dispatch(setUserProfile(obj));
+
+        // let tempUserProfile = userProfile;
+        // let tempMylist = [...tempUserProfile.myList]
+        // let isMylistExist = tempMylist && tempMylist.filter(x => x === movieId).length > 0 ? true : false;
+        // let filteredMylist = tempMylist ? tempMylist.filter(x => x !== movieId) : [];
+        // tempUserProfile.myList = !isMylistExist ? [...tempMylist, movieId] : [...filteredMylist];
+        // dispatch(setUserProfile(tempUserProfile));
+
+    }
 
 
     return (
@@ -81,21 +174,21 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
                         {
 
                             inList ?
-                                <li style="highlightStyle" onClick={() => handleAddToList(item.id)}><CheckIcon /></li> :
+                                <li style={highlightStyle} onClick={() => handleAddToList(item.id)}><CheckIcon /></li> :
                                 <li onClick={() => handleAddToList(item.id)}><CheckIcon /> </li>
                         }
                         {
 
                             liked ?
-                                <li style={highlightStyle} onClick={() => handleLike(item._id)}><ThumbUpAltIcon /> </li> :
-                                <li onClick={() => handleLike(item._id)}><ThumbUpAltIcon /> </li>
+                                <li style={highlightStyle} onClick={() => handleLike(item.id)}><ThumbUpAltIcon /> </li> :
+                                <li onClick={() => handleLike(item.id)}><ThumbUpAltIcon /> </li>
                         }
 
                         {
 
                             disliked ?
                                 <li style={highlightStyle} onClick={() => handleDislike(item.id)}><ThumbDownAltIcon /> </li> :
-                                <li onClick={() => handleDislike(item._id)}><ThumbDownAltIcon /> </li>
+                                <li onClick={() => handleDislike(item.id)}><ThumbDownAltIcon /> </li>
                         }
 
 
@@ -134,7 +227,8 @@ export const SingleItem = ({ item, handleLike, handleDislike, handleAddToList, a
                 }}
             >
                 <div className="root"  >
-                    <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} item={item} />
+                    {/* <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} item={item} /> */}
+                    <MovieModal item={item} handleClose={handleClose} />
                 </div>
 
             </Modal >

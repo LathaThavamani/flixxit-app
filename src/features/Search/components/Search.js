@@ -67,13 +67,7 @@ export const Search = () => {
             <div className="list-container">
                 {
                     searchResults?.map((item, i) =>
-                        <SingleItem
-                            applyClass="listItem"
-                            key={item.id}
-                            handleAddToList={handleAddToList}
-                            item={item}
-                            handleLike={handleLike}
-                            handleDislike={handleDislike} />)
+                        <SingleItem applyClass="listItem" item={item} />)
                 }
             </div>
 

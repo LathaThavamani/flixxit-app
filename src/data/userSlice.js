@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getJsonData } from "../utilities/APIUtilities";
 
-export const getUserProfile = createAsyncThunk('getUserProfile', (userId) => {
-    return getJsonData('/profile?id=' + userId)
+export const setUserProfile = createAsyncThunk('getUserProfile', (user) => {
+    localStorage.setItem("userProfile", JSON.stringify(user));
+    return user;
 })
 
 const userSlice = createSlice({
@@ -12,12 +13,7 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
 
-        builder.addCase(getUserProfile.pending, (state, action) => {
-            state.userProfile = {}
-
-        })
-
-        builder.addCase(getUserProfile.fulfilled, (state, action) => {
+        builder.addCase(setUserProfile.fulfilled, (state, action) => {
             state.userProfile = action.payload;
         })
 

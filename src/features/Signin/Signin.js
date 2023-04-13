@@ -6,8 +6,8 @@ import { TextField } from '@mui/material';
 //import { baseURL } from '../../data/constants.js'
 import { useLoader } from '../../data/hooks/useLoader'
 //import { getJsonData } from '../../utilities/APIUtilities'
-import { getUserProfile } from '../../data/userSlice.js';
-import { useDispatch } from 'react-redux'
+//import { setUserProfile } from '../../data/userSlice.js';
+import { useDispatch, useSelector } from 'react-redux'
 
 const Signin = () => {
 
@@ -23,12 +23,13 @@ const Signin = () => {
     const [passErr, setPassErr] = useState(false)
     const [err, setErr] = useState("")
     const { setLoaderSpinning } = useLoader();
+    //const { userProfile } = useSelector(state => state.user);
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            navigate('/dashboard')
-        }
-    })
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         navigate('/dashboard')
+    //     }
+    // })
 
     const handleEmail = (e) => {
         e.preventDefault()
@@ -90,7 +91,11 @@ const Signin = () => {
                             .then(res => res.json())
                             .then(response => {
                                 localStorage.setItem('userProfile', JSON.stringify(response.user))
+                                // dispatch(setUserProfile(response.user))
                             })
+
+                        //let profile = localStorage.getItem('userProfile');
+                        //setUserProfile({ userProfile: profile });
                         navigate("/dashboard")
                     }
                 })

@@ -12,7 +12,7 @@ import { Backdrop, Modal } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useLoader } from '../../data/hooks/useLoader'
 import { Search } from '../Search/components/Search';
-
+import { setUserProfile } from '../../data/userSlice.js';
 
 //import { getProfiles, setCurrentProfile } from '../../Redux/Profile/actions/profileActions';
 
@@ -24,12 +24,12 @@ function Dashboad(props) {
     const [play, setPlay] = useState(true);
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const { setLoaderSpinning } = useLoader();
 
-    let userProfile = localStorage.getItem('userProfile')
     const { trendingMovies, topRatedMovies, movieDetail, searchResults } = useSelector(state => state.movies)
 
     const [modalOpen, setModalOpen] = useState(false);
-    const { setLoaderSpinning } = useLoader();
+
 
     const handlePlayVideo = () => {
         navigate(`/video`)
@@ -37,56 +37,11 @@ function Dashboad(props) {
 
     const handleModalButton = () => {
         setModalOpen(true)
-
     }
 
     const handleClose = () => {
         setModalOpen(false)
     }
-
-    const isLiked = (id) => {
-        return userProfile.likes && userProfile.likes.length > 0 ? userProfile.likes.includes(id) : false;
-    }
-
-    const isDisLiked = (id) => {
-        return userProfile.dislikes && userProfile.dislikes.length > 0 ? userProfile.dislikes.includes(id) : false;
-    }
-
-    const isInList = (id) => {
-        const index = userProfile.myList && userProfile.myList.length > 0 ?
-            (userProfile.myList.findIndex(list => list._id === id)) : -1;
-        return index > -1 ? true : false
-    }
-
-    const liked = isLiked(movieDetail.id)
-    const disliked = isDisLiked(movieDetail.id)
-    const inList = isInList(movieDetail.id)
-
-
-    const handleLike = (showId) => {
-
-    }
-
-    const handleDislike = (showId) => {
-
-
-    }
-
-    const handleAddToList = (showId) => {
-    }
-
-    // useEffect(() => {
-    //     dispatch(getTrendingMovies())
-    //     dispatch(getTopRatedMovies())
-    //     //dispatch(makeGetSeriesRequest())
-    //     //dispatch(getSearchSuccess([]))
-    //     // if (!currentProfile) {
-    //     //     let token = localStorage.getItem("token")
-    //     //     dispatch(getProfiles(token))
-    //     //     dispatch(setCurrentProfile(JSON.parse(localStorage.getItem("currentProfile"))))
-    //     // }
-
-    // }, []);
 
     useEffect(() => {
         setLoaderSpinning(true);
@@ -95,7 +50,7 @@ function Dashboad(props) {
         }
 
         const callDispatchMethods = async () => {
-
+            await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
             await dispatch(getMovieDetails(419704));
             await dispatch(getMovieVideoSource(419704));
             await dispatch(getTrendingMovies())
@@ -200,7 +155,8 @@ function Dashboad(props) {
                         }}
                     >
                         <div className="root"  >
-                            <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} item={movieDetail} />
+                            {/* <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} item={movieDetail} /> */}
+                            <MovieModal item={movieDetail} handleClose={handleClose} />
                         </div>
 
                     </Modal >

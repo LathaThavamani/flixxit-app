@@ -14,7 +14,8 @@ import { getMovieVideoSource } from '../../../data/moviesSlice.js';
 import { useLoader } from '../../../data/hooks/useLoader'
 
 
-export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handleAddToList, liked, disliked, inList }) => {
+//export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handleAddToList, liked, disliked, inList }) => {
+export const MovieModal = ({ item, handleClose }) => {
     const [mute, setMute] = useState(true);
     //const dispatch = useDispatch();
 
@@ -22,7 +23,7 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
-    const { setLoaderSpinning } = useLoader();
+    const { setLoaderSpinning, userProfile, setUserProfile } = useLoader();
 
     const handlePlayVideo = () => {
         setLoaderSpinning(true);
@@ -30,6 +31,37 @@ export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handl
         setLoaderSpinning(false);
     }
 
+    const isLiked = (id) => {
+        return userProfile.likes && userProfile.likes.length > 0 ? userProfile.likes.includes(id) : false;
+    }
+
+    const isDisLiked = (id) => {
+        return userProfile.dislikes && userProfile.dislikes.length > 0 ? userProfile.dislikes.includes(id) : false;
+    }
+
+    const isInList = (id) => {
+        const index = userProfile.myList && userProfile.myList.length > 0 ?
+            (userProfile.myList.findIndex(list => list._id === id)) : -1;
+        return index > -1 ? true : false
+    }
+
+    const liked = isLiked(movieDetail.id)
+    const disliked = isDisLiked(movieDetail.id)
+    const inList = isInList(movieDetail.id)
+
+
+    const handleLike = (movieId) => {
+
+
+    }
+
+    const handleDislike = (showId) => {
+
+
+    }
+
+    const handleAddToList = (showId) => {
+    }
     return (
         movieDetail ?
             <>

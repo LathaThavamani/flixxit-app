@@ -52,37 +52,6 @@ export const ShowMovies = ({ items, title, isTopRated }) => {
     //     'Authorization': `bearer ${token}`
     // }
 
-    const handleLike = (showId) => {
-
-
-
-        // axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/profile/like/${showId}`, {}, {
-        //     params: {
-        //         profileId: currentProfile._id
-        //     },
-        //     headers,
-        // }).then(res => dispatch(setCurrentProfile(res.data.newProfile))).catch(err => console.log(err))
-    }
-
-    const handleDislike = (showId) => {
-
-        // axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/profile/dislike/${showId}`, {}, {
-        //     params: {
-        //         profileId: currentProfile._id
-        //     },
-        //     headers,
-        // }).then(res => dispatch(setCurrentProfile(res.data.newProfile))).catch(err => console.log(err))
-
-    }
-
-    const handleAddToList = (showId) => {
-        // axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/profile/addToList/${showId}`, {}, {
-        //     params: {
-        //         profileId: currentProfile._id
-        //     },
-        //     headers,
-        // }).then(res => dispatch(setCurrentProfile(res.data.newProfile))).catch(err => console.log(err))
-    }
 
 
     return (
@@ -93,8 +62,7 @@ export const ShowMovies = ({ items, title, isTopRated }) => {
                     items.map((item) =>
                     (
 
-                        < SingleItem isTopRated={isTopRated} key={item.id} handleAddToList={handleAddToList} handleLike={handleLike} handleDislike={handleDislike}
-                            item={item} />
+                        < SingleItem item={item} />
 
                     )
                     )
