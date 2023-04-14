@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { putJsonData } from "../utilities/APIUtilities";
 
-export const setUserProfile = createAsyncThunk('getUserProfile', (user) => {
+export const setUserProfile = createAsyncThunk('setUserProfile', (user) => {
     localStorage.setItem("userProfile", JSON.stringify(user));
     return user;
 })

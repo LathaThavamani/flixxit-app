@@ -80,7 +80,6 @@ const UserProfile = () => {
     return (
         <div className="UserProfile">
             <div className="User">
-                <div className="name">Anass FERRAK</div>
                 <div className="image">
                     <img alt="profile pic" src="/images/ProfilePic.png" />
                 </div>

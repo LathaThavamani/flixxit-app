@@ -5,6 +5,7 @@ import Dashboad from './../features/Dashboard/Dashboard';
 import Signin from './../features/Signin/Signin'
 import Signup from './../features/Signup/Signup'
 import VideoPlayer from './../features/Dashboard/components/VideoPlayer';
+import MyList from './../features/MyList/components/MyList';
 
 
 const AppRoutes = () => {
@@ -15,6 +16,7 @@ const AppRoutes = () => {
             <Route path='/signup' element={<Signup />}></Route>
             <Route path='/dashboard' element={<Dashboad />}></Route>
             <Route path="/video" element={<VideoPlayer />} />
+            <Route path="/myList" element={<MyList />} />
         </Routes>
     )
 }
