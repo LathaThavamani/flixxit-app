@@ -11,25 +11,28 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMovieVideoSource } from '../../../data/moviesSlice.js';
+import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist } from '../../../data/userSlice.js';
 import { useLoader } from '../../../data/hooks/useLoader'
 
 
 //export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handleAddToList, liked, disliked, inList }) => {
 export const MovieModal = ({ item, handleClose }) => {
     const [mute, setMute] = useState(true);
-    //const dispatch = useDispatch();
 
     const { movieDetail, movieVideoSource } = useSelector(state => state.movies)
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const { userProfile } = useSelector(state => state.user);
 
-    const { setLoaderSpinning, userProfile, setUserProfile } = useLoader();
+    const { setLoaderSpinning } = useLoader();
 
-    const handlePlayVideo = () => {
+    const handlePlayVideo = async () => {
         setLoaderSpinning(true);
+        await dispatch(getMovieVideoSource(movieDetail.id));
         navigate(`/video`)
         setLoaderSpinning(false);
     }
+
 
     const isLiked = (id) => {
         return userProfile.likes && userProfile.likes.length > 0 ? userProfile.likes.includes(id) : false;
@@ -40,27 +43,64 @@ export const MovieModal = ({ item, handleClose }) => {
     }
 
     const isInList = (id) => {
-        const index = userProfile.myList && userProfile.myList.length > 0 ?
-            (userProfile.myList.findIndex(list => list._id === id)) : -1;
-        return index > -1 ? true : false
+        return userProfile.myList && userProfile.myList.length > 0 ? userProfile.myList.includes(id) : false;
     }
 
     const liked = isLiked(movieDetail.id)
     const disliked = isDisLiked(movieDetail.id)
     const inList = isInList(movieDetail.id)
 
-
-    const handleLike = (movieId) => {
-
-
+    const handleLike = async (movieId) => {
+        //setLoaderSpinning(true);
+        let obj = {};
+        obj._id = userProfile._id;
+        obj.useremail = userProfile.useremail;
+        obj.username = userProfile.username;
+        obj.password = userProfile.password;
+        let tempLikes = [...userProfile.likes]
+        let isExist = tempLikes && tempLikes.filter(x => x === movieId).length > 0 ? true : false;
+        let filteredLikes = tempLikes ? tempLikes.filter(x => x !== movieId) : [];
+        let newLikes = !isExist ? [...tempLikes, movieId] : [...filteredLikes];
+        obj.likes = [...newLikes];
+        obj.dislikes = [...userProfile.dislikes];
+        obj.myList = [...userProfile.myList];
+        await dispatch(updateUserProfileLikes(obj))
+        await dispatch(setUserProfile(obj));
+        //setLoaderSpinning(false);
     }
 
-    const handleDislike = (showId) => {
-
-
+    const handleDislike = async (movieId) => {
+        let obj = {};
+        obj._id = userProfile._id;
+        obj.useremail = userProfile.useremail;
+        obj.username = userProfile.username;
+        obj.password = userProfile.password;
+        let tempDislikes = [...userProfile.dislikes]
+        let isDisLikeExist = tempDislikes && tempDislikes.filter(x => x === movieId).length > 0 ? true : false;
+        let filteredDisLikes = tempDislikes ? tempDislikes.filter(x => x !== movieId) : [];
+        let newDislikes = !isDisLikeExist ? [...tempDislikes, movieId] : [...filteredDisLikes];
+        obj.likes = [...userProfile.likes];
+        obj.dislikes = [...newDislikes];
+        obj.myList = [...userProfile.myList];
+        await dispatch(updateUserProfileDislikes(obj))
+        await dispatch(setUserProfile(obj));
     }
 
-    const handleAddToList = (showId) => {
+    const handleAddToList = async (movieId) => {
+        let obj = {};
+        obj._id = userProfile._id;
+        obj.useremail = userProfile.useremail;
+        obj.username = userProfile.username;
+        obj.password = userProfile.password;
+        let tempMylist = [...userProfile.myList]
+        let isMylistExist = tempMylist && tempMylist.filter(x => x === movieId).length > 0 ? true : false;
+        let filteredMylist = tempMylist ? tempMylist.filter(x => x !== movieId) : [];
+        let newMylist = !isMylistExist ? [...tempMylist, movieId] : [...filteredMylist];
+        obj.likes = [...userProfile.likes];
+        obj.dislikes = [...userProfile.dislikes];
+        obj.myList = [...newMylist];
+        await dispatch(updateUserProfileMylist(obj))
+        dispatch(setUserProfile(obj));
     }
     return (
         movieDetail ?
@@ -80,7 +120,7 @@ export const MovieModal = ({ item, handleClose }) => {
                             </button>
                             <div className="synopsis-tooltips">
                                 {
-                                    inList ? <Tooltip title="In List"
+                                    inList ? <Tooltip title="Add to My List"
                                         className="synopsis-tooltips-single"
                                         placement="top"
                                         arrow
@@ -102,7 +142,7 @@ export const MovieModal = ({ item, handleClose }) => {
 
                                 {
 
-                                    liked ? <Tooltip title="I like this"
+                                    liked ? <Tooltip title="Like"
                                         className="synopsis-tooltips-single"
                                         placement="top"
                                         arrow
@@ -112,7 +152,7 @@ export const MovieModal = ({ item, handleClose }) => {
 
                                     </Tooltip>
                                         :
-                                        <Tooltip title="Like this"
+                                        <Tooltip title="Like"
                                             className="synopsis-tooltips-single"
                                             placement="top"
                                             arrow
@@ -127,7 +167,7 @@ export const MovieModal = ({ item, handleClose }) => {
 
                                     disliked ?
 
-                                        <Tooltip title="I dislike this"
+                                        <Tooltip title="Dislike"
                                             className="synopsis-tooltips-single"
                                             placement="top"
                                             arrow
@@ -135,7 +175,7 @@ export const MovieModal = ({ item, handleClose }) => {
                                             <ThumbDownAltOutlinedIcon onClick={() => handleDislike(movieDetail.id)} className="highlight" style={{ fontSize: '24px' }} />
                                         </Tooltip> :
 
-                                        <Tooltip title="dislike this"
+                                        <Tooltip title="Dislike"
                                             className="synopsis-tooltips-single"
                                             placement="top"
                                             arrow

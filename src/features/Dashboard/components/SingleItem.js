@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "../../../styles/ShowMovies.css"
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import CheckIcon from '@mui/icons-material/Check';
+import AddIcon from '@mui/icons-material/Add';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -145,8 +145,8 @@ export const SingleItem = ({ item, applyClass = "" }) => {
                         {
 
                             inList ?
-                                <li style={highlightStyle} onClick={() => handleAddToList(item.id)}><CheckIcon /></li> :
-                                <li onClick={() => handleAddToList(item.id)}><CheckIcon /> </li>
+                                <li style={highlightStyle} onClick={() => handleAddToList(item.id)}><AddIcon /></li> :
+                                <li onClick={() => handleAddToList(item.id)}><AddIcon /> </li>
                         }
                         {
 
