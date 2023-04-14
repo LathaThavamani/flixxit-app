@@ -31,7 +31,7 @@ import { useLoader } from '../../../data/hooks/useLoader'
 
 function Header({ black }) {
 
-    const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox } = useLoader();
+    const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox, showSearch } = useLoader();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // const profiles = useSelector((state) => state.profiles.profile);
@@ -189,22 +189,24 @@ function Header({ black }) {
                     </Popper>
                 </div>
                 <div className="search-bar-right">
-                    <div className={`${searchBox ? "searchBox" : "searchIcon"}`}>
-                        <span className="icon" onClick={() => toggleSearchBox()}>
-                            <FontAwesomeIcon color="white" icon={faSearch} />
-                        </span>
-                        <DebounceInput
-                            className="searchInput"
-                            minLength={2}
-                            value={search}
-                            placeholder="Titles, People, Genres..."
-                            //onBlur={() => setSearchBox(false)}
-                            debounceTimeout={1000}
-                            onChange={(e) => {
-                                Debouncer(e.target.value);
-                            }}
-                        />
-                    </div>
+                    {showSearch ?
+                        <div className={`${searchBox ? "searchBox" : "searchIcon"}`}>
+                            <span className="icon" onClick={() => toggleSearchBox()}>
+                                <FontAwesomeIcon color="white" icon={faSearch} />
+                            </span>
+                            <DebounceInput
+                                className="searchInput"
+                                minLength={2}
+                                value={search}
+                                placeholder="Titles, People, Genres..."
+                                //onBlur={() => setSearchBox(false)}
+                                debounceTimeout={1000}
+                                onChange={(e) => {
+                                    Debouncer(e.target.value);
+                                }}
+                            />
+                        </div> : <></>
+                    }
                     <div className="header-user">
                         <a>
                             <img

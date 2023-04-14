@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { putJsonData } from "../utilities/APIUtilities";
+import { putJsonData, getJsonData } from "../utilities/APIUtilities";
 
 export const setUserProfile = createAsyncThunk('setUserProfile', (user) => {
     localStorage.setItem("userProfile", JSON.stringify(user));
@@ -18,10 +18,25 @@ export const updateUserProfileMylist = createAsyncThunk('updateUserProfileMylist
     return putJsonData('/profile/mylist?id=' + user._id + '&field=myList', user.myList)
 })
 
+export const getMyListMovies = createAsyncThunk('getMyListMovies', async (myList) => {
+    let tempList = []
+    var promises = myList.map(function (id) {
+        return getJsonData("/movies/detail?id=" + id).then(response => {
+            return response;
+        })
+    })
+    await Promise.all(promises).then(function (results) {
+        tempList = [...results]
+    })
+    return tempList;
+
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        userProfile: {}
+        userProfile: {},
+        myListMovies: []
     },
     extraReducers: (builder) => {
 
@@ -39,6 +54,10 @@ const userSlice = createSlice({
 
         builder.addCase(updateUserProfileMylist.fulfilled, (state, action) => {
 
+        })
+
+        builder.addCase(getMyListMovies.fulfilled, (state, action) => {
+            state.myListMovies = action.payload
         })
     }
 })

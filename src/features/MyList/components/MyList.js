@@ -1,35 +1,39 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../Dashboard/components/Header';
 import { SingleItem } from '../../Dashboard/components/SingleItem';
-import axios from "axios";
 import "../../../styles/MyList.css"
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import HomeFooter from '../../../components/HomeFooter';
-import { setUserProfile } from '../../../data/userSlice';
-import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice';
+//import { getJsonData } from '../../../utilities/APIUtilities';
+import { useLoader } from '../../../data/hooks/useLoader';
+import { useDispatch, useSelector } from 'react-redux'
+import { getMyListMovies, setUserProfile } from '../../../data/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
-function MyList(props) {
+const MyList = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    console.log(props)
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
-    let profile = { ...JSON.parse(localStorage.getItem('userProfile')) }
-
-    console.log(profile.myList)
     const [blackHeader, setBlackHeader] = useState(false);
-    // useEffect(async () => {
-    //     await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
-    // }, [userProfile]);
+    const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) })
+    const { myListMovies } = useSelector((state) => state.user)
+    const { setLoaderSpinning, setShowSearch } = useLoader();
 
     useEffect(() => {
-        profile = { ...JSON.parse(localStorage.getItem('userProfile')) }
-
-        console.log(profile.myList)
-        //await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
+        setShowSearch(false);
+        setLoaderSpinning(true);
+        if (!localStorage.getItem('token')) {
+            navigate('/signin')
+        }
+        //dispatch(getMyListMovies(profile.myList))
+        const callGetMovieDetails = async () => {
+            await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
+            await dispatch(getMyListMovies({ ...JSON.parse(localStorage.getItem('userProfile')) }.myList))
+            setLoaderSpinning(false);
+        }
+        callGetMovieDetails();
         const scrollListener = () => {
             if (window.scrollY > 10) {
                 setBlackHeader(true);
@@ -53,18 +57,14 @@ function MyList(props) {
             </h2>
             <div className="list-container">
                 {
-
-                    profile.myList.map((id, i) => {
-                        <li>{id}</li>
-                        // < SingleItem
-                        //     applyClass="listItem"
-                        //     item={id} />
-                    })
+                    myListMovies?.map((item, i) =>
+                        <SingleItem applyClass="listItem" item={item} />)
                 }
             </div>
             <HomeFooter />
         </div >
-    );
+
+    )
 }
 
-export default MyList;
+export default MyList

@@ -10,7 +10,7 @@ import { Backdrop, Modal } from "@mui/material";
 import { MovieModal } from "./MovieModal";
 import { useNavigate } from 'react-router';
 import { getMovieDetails, getMovieVideoSource } from '../../../data/moviesSlice.js';
-import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist } from '../../../data/userSlice.js';
+import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist, getMyListMovies } from '../../../data/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoader } from '../../../data/hooks/useLoader'
 
@@ -127,6 +127,7 @@ export const SingleItem = ({ item, applyClass = "" }) => {
         obj.dislikes = [...userProfile.dislikes];
         obj.myList = [...newMylist];
         await dispatch(updateUserProfileMylist(obj))
+        await dispatch(getMyListMovies(obj.myList))
         dispatch(setUserProfile(obj));
     }
 

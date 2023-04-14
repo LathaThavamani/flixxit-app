@@ -6,7 +6,7 @@ import { TextField } from '@mui/material';
 //import { baseURL } from '../../data/constants.js'
 import { useLoader } from '../../data/hooks/useLoader'
 //import { getJsonData } from '../../utilities/APIUtilities'
-import { setUserProfile } from '../../data/userSlice.js';
+import { getMyListMovies, setUserProfile } from '../../data/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux'
 
 const Signin = () => {
@@ -92,6 +92,7 @@ const Signin = () => {
                             .then(async (response) => {
                                 localStorage.setItem('userProfile', JSON.stringify(response.user))
                                 await dispatch(setUserProfile(response.user))
+                                await dispatch(getMyListMovies(response.user.myList))
                             })
 
                         //let profile = localStorage.getItem('userProfile');

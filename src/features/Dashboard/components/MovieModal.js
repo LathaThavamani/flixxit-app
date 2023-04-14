@@ -11,7 +11,7 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMovieVideoSource } from '../../../data/moviesSlice.js';
-import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist } from '../../../data/userSlice.js';
+import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist, getMyListMovies } from '../../../data/userSlice.js';
 import { useLoader } from '../../../data/hooks/useLoader'
 
 
@@ -100,6 +100,7 @@ export const MovieModal = ({ item, handleClose }) => {
         obj.dislikes = [...userProfile.dislikes];
         obj.myList = [...newMylist];
         await dispatch(updateUserProfileMylist(obj))
+        await dispatch(getMyListMovies(obj.myList))
         dispatch(setUserProfile(obj));
     }
     return (

@@ -5,14 +5,13 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import { Layout } from './components/Layout';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTopRatedMovies, getTrendingMovies, getMovieDetails, getMovieVideoSource } from '../../data/moviesSlice.js';
-import { getUserProfile } from '../../data/userSlice.js';
+import { getMyListMovies, setUserProfile } from '../../data/userSlice.js';
 import MovieList from './components/MovieList';
 import { MovieModal } from './components/MovieModal';
 import { Backdrop, Modal } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useLoader } from '../../data/hooks/useLoader'
 import { Search } from '../Search/components/Search';
-import { setUserProfile } from '../../data/userSlice.js';
 
 //import { getProfiles, setCurrentProfile } from '../../Redux/Profile/actions/profileActions';
 
@@ -24,7 +23,7 @@ function Dashboad(props) {
     const [play, setPlay] = useState(true);
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { setLoaderSpinning } = useLoader();
+    const { setLoaderSpinning, setShowSearch } = useLoader();
 
     const { trendingMovies, topRatedMovies, movieDetail, searchResults } = useSelector(state => state.movies)
 
@@ -44,6 +43,7 @@ function Dashboad(props) {
     }
 
     useEffect(() => {
+        setShowSearch(true)
         setLoaderSpinning(true);
         if (!localStorage.getItem('token')) {
             navigate('/signin')
@@ -51,6 +51,7 @@ function Dashboad(props) {
 
         const callDispatchMethods = async () => {
             await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
+            await dispatch(getMyListMovies({ ...JSON.parse(localStorage.getItem('userProfile')) }.myList))
             await dispatch(getMovieDetails(419704));
             await dispatch(getMovieVideoSource(419704));
             await dispatch(getTrendingMovies())
