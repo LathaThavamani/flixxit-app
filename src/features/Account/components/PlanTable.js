@@ -2,6 +2,7 @@ import React from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import "../../../styles/PlanSubscription.css"
+import { useLoader } from '../../../data/hooks/useLoader';
 
 
 function createData(spec, mobile, basic, standard, premium) {
@@ -19,27 +20,29 @@ const rows = [
     createData('Cancel Anytime', 1, 1, 1, 1),
 ];
 
-export default function PlanTable({ plan, setPlan }) {
-    var c1, c2, c3, c4;
-    if (plan === 1) {
+const PlanTable = () => {
+    const { plan, setPlan } = useLoader();
+
+    let c1, c2, c3, c4;
+    if (plan === 'Mobile') {
         c1 = 'red'
         c2 = '#757575'
         c3 = '#757575'
         c4 = '#757575'
     }
-    if (plan === 2) {
+    if (plan === 'Basic') {
         c2 = 'red'
         c1 = '#757575'
         c3 = '#757575'
         c4 = '#757575'
     }
-    if (plan === 3) {
+    if (plan === 'Standard') {
         c3 = 'red'
         c1 = '#757575'
         c2 = '#757575'
         c4 = '#757575'
     }
-    if (plan === 4) {
+    if (plan === 'Premium') {
         c4 = 'red'
         c2 = '#757575'
         c3 = '#757575'
@@ -51,13 +54,13 @@ export default function PlanTable({ plan, setPlan }) {
             <thead>
                 <tr>
                     <th></th>
-                    <th className='plan-table-th' onClick={() => setPlan(1)}>Mobile</th>
+                    <th className='plan-table-th' onClick={() => setPlan('Mobile')}>Mobile</th>
                     <th></th>
-                    <th className='plan-table-th' onClick={() => setPlan(2)}>Basic</th>
+                    <th className='plan-table-th' onClick={() => setPlan('Basic')}>Basic</th>
                     <th></th>
-                    <th className='plan-table-th' onClick={() => setPlan(3)}>Standard</th>
+                    <th className='plan-table-th' onClick={() => setPlan('Standard')}>Standard</th>
                     <th></th>
-                    <th className='plan-table-th' onClick={() => setPlan(4)}>Premium</th>
+                    <th className='plan-table-th' onClick={() => setPlan('Premium')}>Premium</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,3 +82,5 @@ export default function PlanTable({ plan, setPlan }) {
         </table >
     );
 }
+
+export default PlanTable

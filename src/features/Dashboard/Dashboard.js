@@ -23,7 +23,7 @@ function Dashboad(props) {
     const [play, setPlay] = useState(true);
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { setLoaderSpinning, setShowSearch } = useLoader();
+    const { setLoaderSpinning, setShowSearch, setShowMenu } = useLoader();
 
     const { trendingMovies, topRatedMovies, movieDetail, searchResults } = useSelector(state => state.movies)
 
@@ -44,6 +44,7 @@ function Dashboad(props) {
 
     useEffect(() => {
         setShowSearch(true)
+        setShowMenu(true)
         setLoaderSpinning(true);
         if (!localStorage.getItem('token')) {
             navigate('/signin')

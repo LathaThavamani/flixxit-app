@@ -19,10 +19,11 @@ const MyList = () => {
     const [blackHeader, setBlackHeader] = useState(false);
     const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) })
     const { myListMovies } = useSelector((state) => state.user)
-    const { setLoaderSpinning, setShowSearch } = useLoader();
+    const { setLoaderSpinning, setShowSearch, setShowMenu } = useLoader();
 
     useEffect(() => {
         setShowSearch(false);
+        setShowMenu(true)
         setLoaderSpinning(true);
         if (!localStorage.getItem('token')) {
             navigate('/signin')

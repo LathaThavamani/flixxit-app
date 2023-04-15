@@ -6,13 +6,14 @@ import "../../../styles/Account.css";
 import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
-    const { setLoaderSpinning, setShowSearch, setShowMenu } = useLoader();
+    const { setLoaderSpinning, setShowSearch, setShowMenu, setPlan } = useLoader();
     const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) })
     const navigate = useNavigate()
 
     useEffect(() => {
         setShowMenu(false);
         setShowSearch(false);
+        setPlan(profile.plan);
         if (!localStorage.getItem('token')) {
             navigate('/signin')
         }
@@ -46,8 +47,9 @@ const Account = () => {
                             <h2 className="account-section-heading">PLAN DETAILS</h2>
                         </div>
                         <div className="account-section-content">
-                            <div className="account-section-detail">Premium</div>
-                            <div class="account-section-plan" onClick={handlePlanSub} style={{ cursor: 'pointer' }}>Payment & Subscription</div>
+                            <div className="account-section-detail">Plan : {profile.plan}</div>
+                            <div className="account-section-detail">Payment Method  : {profile.paymentmethod}</div>
+                            <div className="account-section-plan" onClick={handlePlanSub} style={{ cursor: 'pointer' }}>Payment & Subscription</div>
                         </div>
                     </div>
 

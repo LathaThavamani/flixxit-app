@@ -6,7 +6,6 @@ import { useLoader } from '../../../data/hooks/useLoader';
 import PlanTable from './PlanTable';
 
 export const PlanSubscription = () => {
-    const [plan, setPlan] = useState(4)
     const { setShowSearch, setShowMenu } = useLoader();
     const navigate = useNavigate()
 
@@ -29,7 +28,7 @@ export const PlanSubscription = () => {
                 <h3>Choose the plan that's right for you</h3>
                 <p>Downgrade or upgrade at any time</p>
                 <div className='plans'>
-                    <PlanTable setPlan={setPlan} plan={plan} />
+                    <PlanTable />
                 </div>
                 <p className='plan-p'>Full HD (1080p), Ultra HD (4K) and HDR availability subject to your
                     internet service and device capabilities. Not all content available in HD, Full HD, Ultra HD

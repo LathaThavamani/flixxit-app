@@ -6,6 +6,10 @@ export const setUserProfile = createAsyncThunk('setUserProfile', (user) => {
     return user;
 })
 
+export const updatePlanPaymentMethod = createAsyncThunk('updatePlanPaymentMethod', (user) => {
+    return putJsonData("/profile/planpayment?id=" + user._id, user)
+})
+
 export const updateUserProfileLikes = createAsyncThunk('updateUserProfileLikes', (user) => {
     return putJsonData('/profile/likes?id=' + user._id + '&field=likes', user.likes)
 })
@@ -36,6 +40,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: {
         userProfile: {},
+        planPaymentMethod: {},
         myListMovies: []
     },
     extraReducers: (builder) => {
@@ -43,6 +48,11 @@ const userSlice = createSlice({
         builder.addCase(setUserProfile.fulfilled, (state, action) => {
             state.userProfile = action.payload;
         })
+
+        builder.addCase(updatePlanPaymentMethod.fulfilled, (state, action) => {
+
+        })
+
 
         builder.addCase(updateUserProfileLikes.fulfilled, (state, action) => {
 

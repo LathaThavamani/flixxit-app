@@ -10,10 +10,11 @@ function App() {
   const [searchBox, setSearchBox] = useState(false);
   const [showSearch, setShowSearch] = useState(true);
   const [showMenu, setShowMenu] = useState(true);
+  const [plan, setPlan] = useState("");
   return (
     <div className="App" style={{ height: "100vh" }}>
       {loaderSpinnig && <Loader />}
-      <GlobalData.Provider value={{ setLoaderSpinning, search, setSearch, searchBox, setSearchBox, showSearch, setShowSearch, showMenu, setShowMenu }}>
+      <GlobalData.Provider value={{ setLoaderSpinning, search, setSearch, searchBox, setSearchBox, showSearch, setShowSearch, showMenu, setShowMenu, plan, setPlan }}>
         <AppRoutes />
       </GlobalData.Provider>
     </div >
