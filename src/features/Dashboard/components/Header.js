@@ -31,7 +31,7 @@ import { useLoader } from '../../../data/hooks/useLoader'
 
 function Header({ black }) {
 
-    const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox, showSearch } = useLoader();
+    const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox, showSearch, showMenu } = useLoader();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // const profiles = useSelector((state) => state.profiles.profile);
@@ -87,15 +87,15 @@ function Header({ black }) {
         }
     };
 
-    const handleClick = (item, e) => {
-        e.preventDefault();
-        //dispatch(setCurrentProfile(item));
+    const handleAccount = () => {
+        navigate("/account");
     };
 
     const handleSignout = () => {
         localStorage.clear();
         navigate("/signin");
     };
+
 
     const Debouncer = (e) => {
         //if (e.length > 0) {
@@ -123,27 +123,29 @@ function Header({ black }) {
                         />
                     </Link>
                 </div>
-                <div className="nav-lg">
-                    <Link
-                        to="/dashboard"
-                        className="nav-bar-text-1"
-                    >
-                        Home
-                    </Link>
-                    <Link to="" className="nav-bar-text">
-                        TV Shows
-                    </Link>
-                    <Link to="" className="nav-bar-text">
-                        Movies
-                    </Link>
-                    <Link to="" className="nav-bar-text">
-                        New & Popular
-                    </Link>
-                    <Link to="/myList" className="nav-bar-text">
-                        My List
-                    </Link>
-                </div>
-
+                {showMenu ?
+                    <div className="nav-lg">
+                        <Link
+                            to="/dashboard"
+                            className="nav-bar-text-1"
+                        >
+                            Home
+                        </Link>
+                        <Link to="" className="nav-bar-text">
+                            TV Shows
+                        </Link>
+                        <Link to="" className="nav-bar-text">
+                            Movies
+                        </Link>
+                        <Link to="" className="nav-bar-text">
+                            New & Popular
+                        </Link>
+                        <Link to="/myList" className="nav-bar-text">
+                            My List
+                        </Link>
+                    </div>
+                    : <></>
+                }
                 <div>
                     <Button
                         className="nav-sm"
@@ -218,28 +220,7 @@ function Header({ black }) {
                     </div>
                     {open && (
                         <div className="modal-box-profiles">
-                            {/* {showProfiles &&
-                                showProfiles.map((item) => (
-                                    <div className="each-profile-box">
-                                        <img src={item.profilePic} alt={item.name} />
-                                        <div
-                                            onClick={(e) => handleClick(item, e)}
-                                            className="each-profile-name"
-                                        >
-                                            {" "}
-                                            {item.name}{" "}
-                                        </div>
-                                    </div>
-                                ))}
-                            <div
-                                //onClick={() => history.push("/profiles")}
-                                className="each-profile-box"
-                            >
-                                {" "}
-                                Manage Profiles{" "}
-                            </div> */}
-                            <div className="profile-box-line"></div>
-                            <div className="profile-text-bottom">Account</div>
+                            <div className="profile-text-bottom" onClick={handleAccount}>Account</div>
                             <div onClick={handleSignout} className="profile-text-bottom">
                                 Sign out
                             </div>

@@ -33,6 +33,9 @@ const HomeFooter = () => {
                     </div>
                 </div>
                 <p>Flixxit Germany</p>
+                <div class="home-footer-copyright">
+                    <span>&copy; 2023 Flixxit, Inc.</span>
+                </div>
             </div>
         </div>
     )

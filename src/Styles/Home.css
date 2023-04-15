@@ -234,4 +234,9 @@
     cursor: pointer;
 }
 
+.home-footer-copyright {
+    font-size: 11px;
+    margin-bottom: 15px;
+}
+
 /* Home Footer End */
