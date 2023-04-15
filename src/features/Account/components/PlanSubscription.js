@@ -19,7 +19,7 @@ export const PlanSubscription = () => {
     }, [])
 
     const handleContinue = () => {
-
+        navigate('/payment')
     }
 
     return (
@@ -35,7 +35,7 @@ export const PlanSubscription = () => {
                     internet service and device capabilities. Not all content available in HD, Full HD, Ultra HD
                     or HDR. See Terms of Use for more details.
                 </p>
-                <div className='planform-button'>
+                <div className='plan-button'>
                     <button onClick={handleContinue}>CONTINUE</button>
                 </div>
 
