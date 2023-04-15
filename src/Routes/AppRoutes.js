@@ -7,6 +7,7 @@ import Signup from './../features/Signup/Signup'
 import VideoPlayer from './../features/Dashboard/components/VideoPlayer';
 import MyList from './../features/MyList/components/MyList';
 import Account from '../features/Account/components/Account';
+import { PlanSubscription } from '../features/Account/components/PlanSubscription';
 
 
 const AppRoutes = () => {
@@ -19,6 +20,7 @@ const AppRoutes = () => {
             <Route path='/dashboard' element={<Dashboad />}></Route>
             <Route path="/video" element={<VideoPlayer />} />
             <Route path="/myList" element={<MyList />} />
+            <Route path="/plansubscription" element={<PlanSubscription />} />
         </Routes>
     )
 }

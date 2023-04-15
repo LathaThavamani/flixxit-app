@@ -2,16 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { useLoader } from '../../../data/hooks/useLoader';
 import Header from '../../Dashboard/components/Header';
 import Footer from '../../../components/HomeFooter';
-import "../../../styles/Account.css"
+import "../../../styles/Account.css";
+import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
-    const { setShowSearch, setShowMenu } = useLoader();
+    const { setLoaderSpinning, setShowSearch, setShowMenu } = useLoader();
     const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) })
+    const navigate = useNavigate()
 
     useEffect(() => {
         setShowMenu(false);
         setShowSearch(false);
+        if (!localStorage.getItem('token')) {
+            navigate('/signin')
+        }
     }, [])
+
+    const handlePlanSub = async () => {
+        navigate('/plansubscription')
+    }
+
 
     return (
         <>
@@ -37,13 +47,13 @@ const Account = () => {
                         </div>
                         <div className="account-section-content">
                             <div className="account-section-detail">Premium</div>
-                            <a class="account-section-plan">Payment & Subscription</a>
+                            <div class="account-section-plan" onClick={handlePlanSub} style={{ cursor: 'pointer' }}>Payment & Subscription</div>
                         </div>
                     </div>
 
 
                 </div>
-            </div>
+            </div >
 
             <Footer />
         </>
