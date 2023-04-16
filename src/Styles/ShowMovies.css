@@ -1,11 +1,3 @@
-/* .root {
-    margin: 3% 21% 10% 21%;
-    overflow: scroll;
-    background-color: #181818;
-    height: 100vh;
-
-} */
-
 .carousel {
     display: flex;
     flex-direction: row;
@@ -331,15 +323,6 @@
     background: grey !important;
     z-index: 1;
 }
-
-/* .carousel .slick-prev:hover,
-.carousel .slick-prev:focus,
-.carousel .slick-next:hover,
-.carousel .slick-next:focus {
-    color: #fff;
-    outline: none;
-    background: #fff;
-} */
 
 .carousel .slick-prev:before,
 .carousel .slick-next:before {

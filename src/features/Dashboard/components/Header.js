@@ -4,50 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-//import { setCurrentProfile } from "../../../Redux/Profile/actions/profileActions";
-
 import { DebounceInput } from "react-debounce-input";
-//import { Search } from "../../Search/Search";
 import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList } from "@mui/material";
 import { getMoviesBySearchText } from '../../../data/moviesSlice.js';
 import { useLoader } from '../../../data/hooks/useLoader'
-
-// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-// import Grow from "@material-ui/core/Grow";
-// import Paper from "@material-ui/core/Paper";
-// import Popper from "@material-ui/core/Popper";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import MenuList from "@material-ui/core/MenuList";
-//import { makeStyles } from "@material-ui/core/styles";
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     display: "flex",
-//   },
-//   paper: {
-//     marginRight: theme.spacing(2),
-//   },
-// }));
 
 function Header({ black }) {
 
     const { setLoaderSpinning, search, setSearch, searchBox, setSearchBox, showSearch, showMenu } = useLoader();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const profiles = useSelector((state) => state.profiles.profile);
-    // const currentProf = useSelector((state) => state.profiles.currentProfile);
-
-    //const params = useParams();
-
-    //const [search, setSearch] = useState(
-    //history.location.search.split("=")[1] || ""
-    //);
-    // const showProfiles = profiles.filter((item) => {
-    //     return item._id !== currentProf._id;
-    // });
-
     const [open, setOpen] = useState(false);
-
     const [openMenu, setOpenMenu] = React.useState(false);
     const anchorRef = React.useRef(null);
 
@@ -55,6 +22,7 @@ function Header({ black }) {
         setOpenMenu((prevOpen) => !prevOpen);
     };
 
+    // close the menu bar
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
@@ -63,6 +31,7 @@ function Header({ black }) {
         setOpenMenu(false);
     };
 
+    // open close menu tab based on screen size
     function handleListKeyDown(event) {
         if (event.key === "Tab") {
             event.preventDefault();
@@ -70,7 +39,7 @@ function Header({ black }) {
         }
     }
 
-    //return focus to the button when we transitioned from!open -> open
+    // focus to the button when we transitioned from open
     const prevOpen = React.useRef(openMenu);
     React.useEffect(() => {
         if (prevOpen.current === true && open === false) {
@@ -79,6 +48,7 @@ function Header({ black }) {
         prevOpen.current = openMenu;
     }, [openMenu]);
 
+    // Show/Hide search box when clicks search icon
     const toggleSearchBox = () => {
         if (searchBox) {
             setSearchBox(false);
@@ -96,18 +66,18 @@ function Header({ black }) {
         navigate("/signin");
     };
 
-
+    // Debouncer for search box -> wait for sometime to trigger search based on typed text
     const Debouncer = (e) => {
-        //if (e.length > 0) {
         setLoaderSpinning(true);
         const callGetMoviesBySearch = async () => {
+            // Get all the movies based on the search text
             dispatch(getMoviesBySearchText(e));
             setLoaderSpinning(false);
         }
         callGetMoviesBySearch();
-        //}
         setSearch(e);
     };
+
     const handleOpen = () => {
         open ? setOpen(false) : setOpen(true);
     };

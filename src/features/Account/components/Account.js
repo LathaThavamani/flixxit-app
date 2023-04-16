@@ -6,11 +6,12 @@ import "../../../styles/Account.css";
 import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
-    const { setLoaderSpinning, setShowSearch, setShowMenu, setPlan } = useLoader();
+    const { setShowSearch, setShowMenu, setPlan } = useLoader();
     const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) })
     const navigate = useNavigate()
 
     useEffect(() => {
+        // Hide search box and menu bar on page load
         setShowMenu(false);
         setShowSearch(false);
         setPlan(profile.plan);
@@ -19,6 +20,7 @@ const Account = () => {
         }
     }, [])
 
+    // navigate to plan subscription page when click payment & subscription
     const handlePlanSub = async () => {
         navigate('/plansubscription')
     }
@@ -44,7 +46,7 @@ const Account = () => {
                     <div className="horizontal-line"></div>
                     <div className="account-section">
                         <div>
-                            <h2 className="account-section-heading">PLAN DETAILS</h2>
+                            <h2 className="account-section-heading">Plan Details</h2>
                         </div>
                         <div className="account-section-content">
                             <div className="account-section-detail">Plan : {profile.plan}</div>
@@ -52,8 +54,6 @@ const Account = () => {
                             <div className="account-section-plan" onClick={handlePlanSub} style={{ cursor: 'pointer' }}>Payment & Subscription</div>
                         </div>
                     </div>
-
-
                 </div>
             </div >
 

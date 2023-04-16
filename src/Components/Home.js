@@ -9,6 +9,7 @@ import HomeFooter from './HomeFooter'
 import validator from 'email-validator'
 import { useNavigate } from 'react-router-dom'
 
+// Info for landing page
 const data =
     [
         {
@@ -39,6 +40,7 @@ const data =
         }
     ]
 
+// Landing page - FAQ data
 const faq = [
     {
         "id": 1,
@@ -75,6 +77,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
+        // validate email address format
         if (validator.validate(email)) {
             navigate('/signup', { state: { email: email } });
 
@@ -83,9 +86,7 @@ const Home = () => {
         }
     }
 
-    //const token = localStorage.getItem("token")
     return (
-        //token ? <Redirect to="/browse" /> :
         <div className="home">
             <HomeHeader />
             {

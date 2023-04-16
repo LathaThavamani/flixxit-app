@@ -1,22 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getJsonData } from "../utilities/APIUtilities";
 
+// Get trending movies
 export const getTrendingMovies = createAsyncThunk('getTrendingMovies', () => {
     return getJsonData('/movies/trending')
 })
 
+// Get top rated movies
 export const getTopRatedMovies = createAsyncThunk('getTopRatedMovies', () => {
     return getJsonData('/movies/toprated')
 })
 
+// Get particular movie details
 export const getMovieDetails = createAsyncThunk('getMovieDetails', (id) => {
     return getJsonData("/movies/detail?id=" + id)
 })
 
+// Get video for the selected movie
 export const getMovieVideoSource = createAsyncThunk('getMovieVideoSource', (id) => {
     return getJsonData("/movies/video?id=" + id)
 })
 
+// Get all the movies based on searched text
 export const getMoviesBySearchText = createAsyncThunk('getMoviesBySearchText', (searchText) => {
     return getJsonData("/movies/search?searchText=" + searchText)
 })

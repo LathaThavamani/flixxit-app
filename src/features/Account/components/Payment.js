@@ -14,6 +14,7 @@ export const Payment = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
+    // Hide search box and menu bar in header
     useEffect(() => {
         setShowMenu(false);
         setShowSearch(false);
@@ -22,10 +23,12 @@ export const Payment = () => {
         }
     }, [])
 
+    // Update payment method to current user profile
     const updatePaymentMethod = (newVal) => {
         setPaymentMethod(newVal)
     }
 
+    // Update plan & payment method to DB once user clicks pay
     const handlePay = async () => {
         setLoaderSpinning(true);
         let obj = {};

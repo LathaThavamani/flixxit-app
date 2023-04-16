@@ -13,10 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { useLoader } from '../../data/hooks/useLoader'
 import { Search } from '../Search/components/Search';
 
-//import { getProfiles, setCurrentProfile } from '../../Redux/Profile/actions/profileActions';
-
-
-
 function Dashboad(props) {
     const [blackHeader, setBlackHeader] = useState(false);
     const [mute, setMute] = useState(true);
@@ -24,24 +20,25 @@ function Dashboad(props) {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const { setLoaderSpinning, setShowSearch, setShowMenu } = useLoader();
-
     const { trendingMovies, topRatedMovies, movieDetail, searchResults } = useSelector(state => state.movies)
-
     const [modalOpen, setModalOpen] = useState(false);
 
-
+    // navigate to video player
     const handlePlayVideo = () => {
         navigate(`/video`)
     }
 
+    // Open modal to show movie detail
     const handleModalButton = () => {
         setModalOpen(true)
     }
 
+    // close movie modal
     const handleClose = () => {
         setModalOpen(false)
     }
 
+    // Hide/Show search box and menu bar
     useEffect(() => {
         setShowSearch(true)
         setShowMenu(true)
@@ -50,12 +47,16 @@ function Dashboad(props) {
             navigate('/signin')
         }
 
+        // Get UserProfile, Default video, trending & top rated videos
         const callDispatchMethods = async () => {
             await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
             await dispatch(getMyListMovies({ ...JSON.parse(localStorage.getItem('userProfile')) }.myList))
+            // Load 'Ad astra' video by default (movie id:419704)
             await dispatch(getMovieDetails(419704));
             await dispatch(getMovieVideoSource(419704));
+            // Load trending videos
             await dispatch(getTrendingMovies())
+            // Load top rated videos
             await dispatch(getTopRatedMovies())
             setLoaderSpinning(false);
         }
@@ -78,7 +79,6 @@ function Dashboad(props) {
 
     return (
         <Layout>
-
             {
                 <>
                     {
@@ -131,17 +131,13 @@ function Dashboad(props) {
                                 </div>
                                 {
                                     trendingMovies.length ? <section>
-                                        {/* {trendingMovies.map((item, key) => ( */}
                                         <MovieList isTopRated={false} title={"Trending"} items={trendingMovies} />
-                                        {/* ))} */}
                                     </section> : <></>
                                 }
 
                                 {
                                     topRatedMovies.length ? <section>
-                                        {/* {topRatedMovies.map((item, key) => ( */}
                                         <MovieList isTopRated={true} title={"Top Rated"} items={topRatedMovies} />
-                                        {/* ))} */}
                                     </section> : <></>
                                 }
                             </div >
@@ -157,10 +153,8 @@ function Dashboad(props) {
                         }}
                     >
                         <div className="root"  >
-                            {/* <MovieModal handleLike={handleLike} handleDislike={handleDislike} handleAddToList={handleAddToList} liked={liked} disliked={disliked} inList={inList} handleClose={handleClose} item={movieDetail} /> */}
                             <MovieModal item={movieDetail} handleClose={handleClose} />
                         </div>
-
                     </Modal >
                 </>
             }

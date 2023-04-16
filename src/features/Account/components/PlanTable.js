@@ -9,6 +9,7 @@ function createData(spec, mobile, basic, standard, premium) {
     return { spec, mobile, basic, standard, premium };
 }
 
+// Subscription plans data
 const rows = [
     createData('Monthly Price', '12€', '14€', '16€', '19€'),
     createData('Video Quality', 'Good', 'Good', 'Better', 'Best'),
@@ -20,6 +21,7 @@ const rows = [
     createData('Cancel Anytime', 1, 1, 1, 1),
 ];
 
+// Based on the selected plan highligh the data column
 const PlanTable = () => {
     const { plan, setPlan } = useLoader();
 

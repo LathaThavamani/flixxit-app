@@ -1,8 +1,6 @@
 import React from "react";
 import { ShowMovies } from "./ShowMovies";
 
-
-
 function MovieList({ items, title, isTopRated }) {
     return (
         <div className="movies-container">

@@ -5,6 +5,7 @@ import { GlobalData } from "./data/GlobalData.js";
 import Loader from "./components/Loader"
 
 function App() {
+  // Global context data to use state across the pages
   const [loaderSpinnig, setLoaderSpinning] = useState(false);
   const [search, setSearch] = useState("");
   const [searchBox, setSearchBox] = useState(false);

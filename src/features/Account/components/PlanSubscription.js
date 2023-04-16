@@ -9,6 +9,7 @@ export const PlanSubscription = () => {
     const { setShowSearch, setShowMenu } = useLoader();
     const navigate = useNavigate()
 
+    // Hide search box and menu bar in header
     useEffect(() => {
         setShowMenu(false);
         setShowSearch(false);
@@ -17,6 +18,7 @@ export const PlanSubscription = () => {
         }
     }, [])
 
+    // navigate to payment after selecting plan subscription
     const handleContinue = () => {
         navigate('/payment')
     }

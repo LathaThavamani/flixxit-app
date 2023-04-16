@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import Footer from '../../../components/HomeFooter';
 
 export const Layout = ({ children }) => {
     const [blackHeader, setBlackHeader] = useState(false);
-    React.useEffect(() => {
+    useEffect(() => {
         const scrollListener = () => {
             if (window.scrollY > 10) {
                 setBlackHeader(true);

@@ -14,34 +14,35 @@ import { getMovieVideoSource } from '../../../data/moviesSlice.js';
 import { setUserProfile, updateUserProfileLikes, updateUserProfileDislikes, updateUserProfileMylist, getMyListMovies } from '../../../data/userSlice.js';
 import { useLoader } from '../../../data/hooks/useLoader'
 
-
-//export const MovieModal = ({ item, handleClose, handleLike, handleDislike, handleAddToList, liked, disliked, inList }) => {
 export const MovieModal = ({ item, handleClose }) => {
     const [mute, setMute] = useState(true);
-
     const { movieDetail, movieVideoSource } = useSelector(state => state.movies)
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const { userProfile } = useSelector(state => state.user);
-
     const { setLoaderSpinning } = useLoader();
 
+    // Get the movie video source and navigate to video player
     const handlePlayVideo = async () => {
         setLoaderSpinning(true);
+        // Get the movie video source
         await dispatch(getMovieVideoSource(movieDetail.id));
+        // navigate to video player
         navigate(`/video`)
         setLoaderSpinning(false);
     }
 
-
+    // check movie is liked or not
     const isLiked = (id) => {
         return userProfile.likes && userProfile.likes.length > 0 ? userProfile.likes.includes(id) : false;
     }
 
+    // check movie is disliked or not
     const isDisLiked = (id) => {
         return userProfile.dislikes && userProfile.dislikes.length > 0 ? userProfile.dislikes.includes(id) : false;
     }
 
+    // check movie is added to mylist or not
     const isInList = (id) => {
         return userProfile.myList && userProfile.myList.length > 0 ? userProfile.myList.includes(id) : false;
     }
@@ -50,8 +51,8 @@ export const MovieModal = ({ item, handleClose }) => {
     const disliked = isDisLiked(movieDetail.id)
     const inList = isInList(movieDetail.id)
 
+    // update like to user profile on like icon click
     const handleLike = async (movieId) => {
-        //setLoaderSpinning(true);
         let obj = {};
         obj._id = userProfile._id;
         obj.useremail = userProfile.useremail;
@@ -64,11 +65,13 @@ export const MovieModal = ({ item, handleClose }) => {
         obj.likes = [...newLikes];
         obj.dislikes = [...userProfile.dislikes];
         obj.myList = [...userProfile.myList];
+        obj.plan = [...userProfile.plan];
+        obj.paymentmethod = [...userProfile.paymentmethod];
         await dispatch(updateUserProfileLikes(obj))
         await dispatch(setUserProfile(obj));
-        //setLoaderSpinning(false);
     }
 
+    // update dislike to user profile on dislike icon click
     const handleDislike = async (movieId) => {
         let obj = {};
         obj._id = userProfile._id;
@@ -82,10 +85,13 @@ export const MovieModal = ({ item, handleClose }) => {
         obj.likes = [...userProfile.likes];
         obj.dislikes = [...newDislikes];
         obj.myList = [...userProfile.myList];
+        obj.plan = [...userProfile.plan];
+        obj.paymentmethod = [...userProfile.paymentmethod];
         await dispatch(updateUserProfileDislikes(obj))
         await dispatch(setUserProfile(obj));
     }
 
+    // update mylist to user profile on add icon click
     const handleAddToList = async (movieId) => {
         let obj = {};
         obj._id = userProfile._id;
@@ -99,6 +105,8 @@ export const MovieModal = ({ item, handleClose }) => {
         obj.likes = [...userProfile.likes];
         obj.dislikes = [...userProfile.dislikes];
         obj.myList = [...newMylist];
+        obj.plan = [...userProfile.plan];
+        obj.paymentmethod = [...userProfile.paymentmethod];
         await dispatch(updateUserProfileMylist(obj))
         await dispatch(getMyListMovies(obj.myList))
         dispatch(setUserProfile(obj));

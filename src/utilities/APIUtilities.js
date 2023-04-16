@@ -1,6 +1,8 @@
+// Server url from .env file
 const serverURL = process.env.REACT_APP_SERV_BASE_URL;
+
+// common method to call GET API
 export function getJsonData(url) {
-    console.log(process.env.REACT_SERV_BASE_URL)
     return fetch(serverURL + url, {
         method: 'GET',
         headers: {
@@ -9,6 +11,7 @@ export function getJsonData(url) {
     }).then(res => res.json())
 }
 
+// common method to call POST API
 export function postJsonData(url, obj) {
     return fetch(serverURL + url, {
         method: 'POST',
@@ -20,6 +23,7 @@ export function postJsonData(url, obj) {
     }).then(res => res.json())
 }
 
+// common method to PUT API 
 export function putJsonData(url, obj) {
     return fetch(serverURL + url, {
         method: 'PUT',

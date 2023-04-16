@@ -5,7 +5,6 @@ import { SingleItem } from '../../Dashboard/components/SingleItem';
 import "../../../styles/MyList.css"
 import { useState } from 'react';
 import HomeFooter from '../../../components/HomeFooter';
-//import { getJsonData } from '../../../utilities/APIUtilities';
 import { useLoader } from '../../../data/hooks/useLoader';
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyListMovies, setUserProfile } from '../../../data/userSlice';
@@ -17,10 +16,10 @@ const MyList = () => {
     const navigate = useNavigate()
 
     const [blackHeader, setBlackHeader] = useState(false);
-    const [profile, setProfile] = useState({ ...JSON.parse(localStorage.getItem('userProfile')) })
     const { myListMovies } = useSelector((state) => state.user)
     const { setLoaderSpinning, setShowSearch, setShowMenu } = useLoader();
 
+    // Hide search box and show menu bar
     useEffect(() => {
         setShowSearch(false);
         setShowMenu(true)
@@ -28,7 +27,7 @@ const MyList = () => {
         if (!localStorage.getItem('token')) {
             navigate('/signin')
         }
-        //dispatch(getMyListMovies(profile.myList))
+        // Get user details with mylist movies detail
         const callGetMovieDetails = async () => {
             await dispatch(setUserProfile({ ...JSON.parse(localStorage.getItem('userProfile')) }))
             await dispatch(getMyListMovies({ ...JSON.parse(localStorage.getItem('userProfile')) }.myList))

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import '../../styles/Home.css'
 import '../../styles/Signup.css'
 import { TextField } from '@mui/material';
@@ -15,18 +15,11 @@ const Signup = () => {
     const navigate = useNavigate();
     const { setLoaderSpinning } = useLoader();
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         navigate('/dashboard')
-    //     }
-    // })
-
     const returnToHome = () => {
         navigate("/");
     }
 
     const handleSubmit = () => {
-
         if (email && name && password) {
             let obj = {
                 'useremail': email,

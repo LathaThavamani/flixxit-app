@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../styles/Signin.css'
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import validator from 'email-validator'
 import { TextField } from '@mui/material';
-//import { baseURL } from '../../data/constants.js'
 import { useLoader } from '../../data/hooks/useLoader'
-//import { getJsonData } from '../../utilities/APIUtilities'
 import { getMyListMovies, setUserProfile } from '../../data/userSlice.js';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const Signin = () => {
 
@@ -23,14 +21,8 @@ const Signin = () => {
     const [passErr, setPassErr] = useState(false)
     const [err, setErr] = useState("")
     const { setLoaderSpinning } = useLoader();
-    //const { userProfile } = useSelector(state => state.user);
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         navigate('/dashboard')
-    //     }
-    // })
-
+    // Email validation
     const handleEmail = (e) => {
         e.preventDefault()
 
@@ -40,6 +32,7 @@ const Signin = () => {
         setEmail(e.target.value)
     }
 
+    // Password validation
     const handlePassword = (e) => {
         e.preventDefault()
 
@@ -49,6 +42,7 @@ const Signin = () => {
         setPassword(e.target.value)
     }
 
+    // Signin click
     const handleLogin = (e) => {
         e.preventDefault()
 
@@ -65,6 +59,7 @@ const Signin = () => {
 
         else {
             setLoaderSpinning(true)
+            // Call generate token API
             fetch(process.env.REACT_APP_SERV_BASE_URL + '/users/generate-token', {
                 method: 'GET',
                 headers: {
@@ -74,14 +69,18 @@ const Signin = () => {
             }).then(res => res.json())
                 .then(response => {
                     setLoaderSpinning(false)
+                    // valid user or not
                     if (response.message == "Un Authorized") {
+                        // clear local storage
                         localStorage.clear()
                         alert("Please enter valid user email & password")
                     } else {
+                        // set local storage values
                         localStorage.setItem("userId", response.userId)
                         localStorage.setItem("username", response.username)
                         localStorage.setItem("token", response.token)
                         const userId = localStorage.getItem('userId')
+                        // call api to load user profile
                         fetch(process.env.REACT_APP_SERV_BASE_URL + '/profile?id=' + userId, {
                             method: 'GET',
                             headers: {
@@ -92,11 +91,10 @@ const Signin = () => {
                             .then(async (response) => {
                                 localStorage.setItem('userProfile', JSON.stringify(response.user))
                                 await dispatch(setUserProfile(response.user))
+                                // Get user mylist movies
                                 await dispatch(getMyListMovies(response.user.myList))
                             })
-
-                        //let profile = localStorage.getItem('userProfile');
-                        //setUserProfile({ userProfile: profile });
+                        // navigate to dashboard
                         navigate("/dashboard")
                     }
                 })
@@ -108,7 +106,6 @@ const Signin = () => {
     return (
         <div className="full">
             <div className="layer" >
-
                 <img className="logo" src="/images/flixxit-logo.png" alt="logo" />
                 <div className="box">
                     <div>
@@ -125,7 +122,6 @@ const Signin = () => {
                             value={email}
                             onChange={handleEmail}
                         />
-                        {/* <input placeholder="Email" className={email.length > 0 ? "inputbox" : "floating"} type="text" value={email} onChange={handleEmail} /> */}
                         {emailErr && <div className="error"> <div className="errtext">Please enter a valid email address.</div> </div>}
                     </div>
                     <div className="signin_form_input">
@@ -138,7 +134,6 @@ const Signin = () => {
                             value={password}
                             onChange={handlePassword}
                         />
-                        {/* <input placeholder="Password" className={password.length > 0 ? "inputbox" : "floating"} type="password" value={password} onChange={handlePassword} /> */}
                         {passErr && <div className="error"> <div className="errtext">Your password must contain between 4 and 60 characters.</div> </div>}
                     </div>
                     <div>

@@ -42,11 +42,6 @@
     background-color: #fff;
 }
 
-
-/* .full input::placeholder {
-    color: #8c8c8c !important;
-} */
-
 .signin {
     background-color: #e63631;
     width: 90%;
@@ -60,10 +55,6 @@
     cursor: pointer;
     margin-left: 10px;
 }
-
-/* .full input:focus {
-    background-color: white;
-} */
 
 .bottom {
     display: flex;

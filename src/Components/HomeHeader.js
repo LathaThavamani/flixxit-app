@@ -12,6 +12,7 @@ const HomeHeader = () => {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
+        // validate valid email format or not
         if (validator.validate(email)) {
             navigate('/signup', { state: { email: email } });
 
