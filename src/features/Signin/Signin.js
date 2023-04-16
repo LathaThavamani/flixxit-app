@@ -65,7 +65,7 @@ const Signin = () => {
 
         else {
             setLoaderSpinning(true)
-            fetch('http://localhost:3001' + '/users/generate-token', {
+            fetch(process.env.REACT_APP_SERV_BASE_URL + '/users/generate-token', {
                 method: 'GET',
                 headers: {
                     useremail: email,
@@ -82,7 +82,7 @@ const Signin = () => {
                         localStorage.setItem("username", response.username)
                         localStorage.setItem("token", response.token)
                         const userId = localStorage.getItem('userId')
-                        fetch('http://localhost:3001/profile?id=' + userId, {
+                        fetch(process.env.REACT_APP_SERV_BASE_URL + '/profile?id=' + userId, {
                             method: 'GET',
                             headers: {
                                 token: localStorage.getItem('token')
