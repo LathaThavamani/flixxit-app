@@ -16,7 +16,7 @@ const data =
             "id": 1,
             "title": "Enjoy on your TV.",
             "subTitle": "Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.",
-            "image": "/images/tv.png",
+            "image": "/static/Images/tv.png",
             "video": "https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-0819.m4v",
             "alt": "Watch on Flixxit",
             "direction": "row"
@@ -25,7 +25,7 @@ const data =
             "id": 2,
             "title": "Download your programmes to watch on the offline.",
             "subTitle": "Save your favourites easily and always have something to watch.",
-            "image": "/images/mobile.jpg",
+            "image": "/static/Images/mobile.jpg",
             "alt": "Watch on mobile",
             "direction": "row-reverse"
         },
@@ -33,7 +33,7 @@ const data =
             "id": 3,
             "title": "Watch everywhere.",
             "subTitle": "Stream unlimited movies and TV shows on your phone, tablet, laptop and TV.",
-            "image": "/images/imac.png",
+            "image": "/static/Images/imac.png",
             "video": "https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-devices.m4v",
             "alt": "TV shows on Flixxit",
             "direction": "row"

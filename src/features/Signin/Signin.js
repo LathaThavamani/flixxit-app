@@ -106,7 +106,7 @@ const Signin = () => {
     return (
         <div className="full">
             <div className="layer" >
-                <img className="logo" src="/images/flixxit-logo.png" alt="logo" />
+                <img className="logo" src="/static/Images/flixxit-logo.png" alt="logo" />
                 <div className="box">
                     <div>
                         <h2>Sign in</h2>

@@ -88,7 +88,7 @@ function Header({ black }) {
                 <div className="header-logo">
                     <Link to="/dashboard">
                         <img
-                            src="/images/flixxit-logo.png"
+                            src="/static/Images/flixxit-logo.png"
                             alt="Flixxit"
                         />
                     </Link>
@@ -183,7 +183,7 @@ function Header({ black }) {
                         <a>
                             <img
                                 onClick={handleOpen}
-                                src="/images/profile-avatar.png"
+                                src="/static/Images/profile-avatar.png"
                                 alt="profile    "
                             />
                         </a>

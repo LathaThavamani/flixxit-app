@@ -47,28 +47,28 @@ export const Payment = () => {
         <>
             <Header black={true} />
             <div className='payment-container'>
-                <img src="/images/lock.png" alt="secure" />
+                <img src="/static/Images/lock.png" alt="secure" />
                 <h3>Set up your payment</h3>
                 <p> Your membership starts as soon as you set up payment </p>
                 <h4>No commitments. Cancel online anytime.</h4>
                 <div className={paymentMethod == 'Credit/Debit Card' ? 'payment-base payment-highlight' : 'payment-base'} onClick={() => updatePaymentMethod('Credit/Debit Card')}>
                     <p>Credit/Debit Card </p>
                     <div>
-                        <img src="/images/visa.svg" alt="payment" />
-                        <img src="/images/mastercard.svg" alt="payment" />
+                        <img src="/static/Images/visa.svg" alt="payment" />
+                        <img src="/static/Images/mastercard.svg" alt="payment" />
                     </div>
                 </div>
                 <div className={paymentMethod == 'Paypal' ? 'payment-base payment-highlight' : 'payment-base'} onClick={() => updatePaymentMethod('Paypal')}>
                     <p>Paypal </p>
                     <div>
-                        <img src="/images/paypal.svg" alt="payment" />
+                        <img src="/static/Images/paypal.svg" alt="payment" />
                     </div>
                 </div>
                 <div className={paymentMethod == 'Google Pay/Apple Pay' ? 'payment-base payment-highlight' : 'payment-base'} onClick={() => updatePaymentMethod('Google Pay/Apple Pay')}>
                     <p>Google Pay/Apple Pay </p>
                     <div>
-                        <img src="/images/googlepay.svg" alt="payment" />
-                        <img src="/images/applepay.svg" alt="payment" />
+                        <img src="/static/Images/googlepay.svg" alt="payment" />
+                        <img src="/static/Images/applepay.svg" alt="payment" />
                     </div>
                 </div>
             </div >

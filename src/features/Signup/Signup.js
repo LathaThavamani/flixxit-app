@@ -43,11 +43,11 @@ const Signup = () => {
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-            <img src="/static/bg_main.jpg" alt="cover" className="cover_image" />
+            <img src="/static/Images/bg_main.jpg" alt="cover" className="cover_image" />
             <div className="cover_content">
                 <header className="register_header">
                     <div className="register_logo" onClick={returnToHome}>
-                        <img src="/images/flixxit-logo.png" alt="logo" />
+                        <img src="/static/Images/flixxit-logo.png" alt="logo" />
                     </div>
                     <Link to="/signin" className="sign_in_btn">Sign In</Link>
                 </header>

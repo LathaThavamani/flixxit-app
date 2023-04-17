@@ -28,10 +28,10 @@ const HomeHeader = () => {
 
     return (
         <div className="cover_container">
-            <img src="/static/bg_main.jpg" alt="cover" className="cover_image" />
+            <img src="/static/Images/bg_main.jpg" alt="cover" className="cover_image" />
             <div className="cover_content">
                 <div className="cover_content_header">
-                    <img src="/Images/flixxit-logo.png" alt="logo" />
+                    <img src="/static/Images/flixxit-logo.png" alt="logo" />
                     <button onClick={handleClick} className="sign_in_btn" >Sign In</button>
                 </div>
                 <div className="cover_content_register">
