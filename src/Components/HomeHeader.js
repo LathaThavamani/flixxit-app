@@ -28,7 +28,7 @@ const HomeHeader = () => {
 
     return (
         <div className="cover_container">
-            <img src="/images/bg_main.jpg" alt="cover" className="cover_image" />
+            <img src="/static/bg_main.jpg" alt="cover" className="cover_image" />
             <div className="cover_content">
                 <div className="cover_content_header">
                     <img src="/Images/flixxit-logo.png" alt="logo" />

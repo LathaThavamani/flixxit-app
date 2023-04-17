@@ -43,7 +43,7 @@ const Signup = () => {
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-            <img src="/images/bg_main.jpg" alt="cover" className="cover_image" />
+            <img src="/static/bg_main.jpg" alt="cover" className="cover_image" />
             <div className="cover_content">
                 <header className="register_header">
                     <div className="register_logo" onClick={returnToHome}>
